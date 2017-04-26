@@ -1,6 +1,6 @@
 const invertedIndex = require('../src/inverted-index');
 
-describe('Inverted Index', () => {
+describe('Read book data', () => {
   describe('Read book data', () => {
     it('ensures the file content is valide JSON Array', () => {
 
@@ -37,6 +37,9 @@ describe('Inverted Index', () => {
 
     });
     it('ensures searchIndex can handle a varied number of search terms as arguments', () => {
+
+    });
+    it('ensures goes through all indexed files if a filename/key is not passed', () => {
 
     });
   });
