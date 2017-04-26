@@ -1,0 +1,39 @@
+{
+  "name": "inverted-index-api",
+  "version": "1.0.0",
+  "description": "An application that implements the Inverted Index search functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victor4l/inverted-index-api.git"
+  },
+  "keywords": [
+    "Inverted",
+    "Index",
+    "Andela21"
+  ],
+  "author": "Victor Idongesit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victor4l/inverted-index-api/issues"
+  },
+  "homepage": "https://github.com/victor4l/inverted-index-api#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "gulp": "^3.9.1",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "jasmine": "^2.6.0",
+    "jasmine-node": "^1.14.5"
+  }
+}
