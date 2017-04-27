@@ -4,20 +4,22 @@
  */
 class InvertedIndex {
   /**
-   * @return {Object} 
+   * @return {Object} index of supplied document
    * @param {*} fileName
    * @param {*} fileContent
    */
-  createIndex (fileName, fileContent) {
+  static createIndex(fileName, fileContent) {
     
   }
   /**
-   * @return {Array}
-   * @param {*} index 
-   * @param {*} fileName 
-   * @param {*} terms 
+   * @return {Array} find
+   * @param {*} index
+   * @param {*} fileName
+   * @param {*} terms
    */
-  searchIndex(index, fileName, ...terms){
+  static searchIndex(index, fileName, ...terms){
 
   }
 }
+
+module.exports = InvertedIndex;

@@ -5,15 +5,21 @@ const fs = require('fs');
  */
 
 module.exports = {
-  getContent(filePath) {
+  getContent(filePath, callback){
     fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        return 'Error reading file';
+      try {
+        JSON.parse(data);
+      } catch (except) {
+        except.msg = 'Invalid Data';
+        callback(except);
       }
-      console.log('get content ' + data);
-      return data;
+      callback(err, data);
     });
-  },
+  }
+};
+
+/*
+,
   isValidJSON(data) {
     console.log('isValidJSON  ' + data);
     try {
@@ -23,6 +29,5 @@ module.exports = {
     }
     return true;
   }
-};
-
+  */
 
