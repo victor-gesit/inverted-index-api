@@ -2,7 +2,7 @@ const invertedIndex = require('../src/inverted-index');
 
 describe('Read book data', () => {
   describe('Read book data', () => {
-    it('ensures the file content is valide JSON Array', () => {
+    it('ensures the file content is valid JSON Array', () => {
 
     });
     it('ensures JSON array is not empty', () => {

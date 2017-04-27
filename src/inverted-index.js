@@ -9,7 +9,7 @@ class InvertedIndex {
    * @param {*} fileContent 
    */
   createIndex(fileName, fileContent){
-
+    // 
   }
   /**
    * @return {Array}
