@@ -10,11 +10,12 @@ module.exports = {
       if (err) {
         return 'Error reading file';
       }
-      console.log(data);
+      console.log('get content ' + data);
       return data;
     });
   },
   isValidJSON(data) {
+    console.log('isValidJSON  ' + data);
     try {
       JSON.parse(data);
     } catch (err) {

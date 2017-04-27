@@ -1,12 +1,11 @@
+const bodyParser = require('body-parser');
+const express = require('express');
+
 const create = require('./routes/create');
 const search = require('./routes/search');
 
-
-const bodyParser = require('body-parser');
-const express = require('express');
 const app = express();
 require('dotenv').config();
-
 
 
 
@@ -17,8 +16,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/create', create);
 app.use('/api/search', search);
 
-console.log(process.env.PORT);
-app.listen(process.env.PORT || 3000, () => {
-
+const port = process.env.port || 3000;
+app.listen(port, () => {
+  console.log('listening at port ' + port);
 });
 module.exports = app;

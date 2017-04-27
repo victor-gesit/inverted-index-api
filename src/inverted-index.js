@@ -4,12 +4,12 @@
  */
 class InvertedIndex {
   /**
-   * @return {Object}
-   * @param {*} fileName 
-   * @param {*} fileContent 
+   * @return {Object} 
+   * @param {*} fileName
+   * @param {*} fileContent
    */
-  createIndex(fileName, fileContent){
-    // 
+  createIndex (fileName, fileContent) {
+    
   }
   /**
    * @return {Array}
