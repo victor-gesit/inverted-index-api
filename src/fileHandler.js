@@ -4,6 +4,7 @@ const fs = require('fs');
  * @param {String} filePath The path to the file to be read.
  */
 
+
 module.exports = {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -11,23 +12,26 @@ module.exports = {
         JSON.parse(data);
       } catch (except) {
         except.msg = 'Invalid Data';
-        callback(except);
+        return callback(except, null);
       }
-      callback(err, data);
+      let aa = JSON.parse(data);
+      console.log(aa instanceof Array);
+      return callback(null, JSON.parse(data));
     });
   }
 };
 
 /*
-,
-  isValidJSON(data) {
-    console.log('isValidJSON  ' + data);
-    try {
-      JSON.parse(data);
-    } catch (err) {
-      return false;
-    }
-    return true;
-  }
-  */
-
+function getContent(filePath, callback){
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      try {
+        JSON.parse(data);
+      } catch (except) {
+        except.msg = 'Invalid Data';
+        return callback(except);
+      }
+      return callback(null, data);
+    });
+}
+*/
+//module.exports = getContent;

@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const jasmine = require('gulp-jasmine-node');
+const jasmineNode = require('gulp-jasmine-node');
 const gls = require('gulp-live-server');
 
 require('dotenv').config();
@@ -10,7 +10,7 @@ gulp.task('default', () => {
 
 gulp.task('run-tests', () => {
   gulp.src('tests/inverted-index-test.js')
-   .pipe(jasmine());
+   .pipe(jasmineNode());
 });
 
 gulp.task('serve', () => {
