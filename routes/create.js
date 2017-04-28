@@ -9,8 +9,9 @@ const invertedIndex = new InvertedIndex();
 
 router.post('/', (req, res) => {
   fileHandler.getContent('fixtures/book1.json', (err, content) => {
-    const index = invertedIndex.createIndex('First Book', content);
-    res.send('Hello' + index);
+    invertedIndex.createIndex('First Book', content, (index) => {
+      res.send(index);
+    });
   });
 });
 

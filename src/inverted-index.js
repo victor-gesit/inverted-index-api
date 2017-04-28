@@ -1,4 +1,5 @@
 const filter = require('./contentFilter');
+const makeIndex = require('./make-index').makeIndex;
 /**
  * Implementing the Inverted Index search procedure
  */
@@ -8,27 +9,12 @@ class InvertedIndex {
    * @param {*} fileName
    * @param {*} fileContent
    */
-   createIndex(fileName, fileContent) {
-     filter.contentFilter(fileContent, (filteredDocument) => {
-        const allWords = filteredDocument[filteredDocument.length - 1];
-        console.log('allWords: ' + allWords.wordList);
-        const wordList = allWords.wordList;
-        const index = {};
-        for (let item in wordList) {
-            const wordArray = [];
-            for(let i = 0; i < filteredDocument.length - 1; i += 1) {
-                let book = filteredDocument[i];
-                let wordsInBook = book.words;
-                if (wordsInBook.indexOf(wordList[item]) !== -1) {
-                    wordArray.push(i);
-                }
-            }
-            let word = wordList[item];
-            console.log(wordArray);
-            index[word] = wordArray;
-        }
+  createIndex(fileName, fileContent, done) {
+    filter.contentFilter(fileContent, (filteredDocument) => {
+      makeIndex(filteredDocument, (index) => {
         console.log(index);
-        return index;
+        return done(index);
+      });
     });
   }
   /**

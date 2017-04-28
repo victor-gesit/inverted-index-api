@@ -14,6 +14,12 @@ function splitandNormalize(sentence) {
  * @param {Array} arr an array whose content will be sorted and streamlined
  */
 function removeDuplicatesAndSort(arr) {
+  // Remove empty string
+  for (const item in arr){
+    if (arr[item].length === 0) {
+      arr.splice(item, 1);
+    }
+  }
   const uniqueArray = arr.filter((item, pos) => {
     return arr.indexOf(item) === pos;
   });
@@ -47,8 +53,8 @@ module.exports.contentFilter = (data, callback) => {
     }
   } else {
     const filteredBook = filterBook(data);
+    wordList = wordList.concat(filteredBook.words);
     allBooks.push(filteredBook);
-    wordList.concat(filteredBook.words);
   }
   // Remove duplicates and sort wordList
   wordList = removeDuplicatesAndSort(wordList);

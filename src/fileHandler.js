@@ -14,23 +14,8 @@ module.exports = {
         except.msg = 'Invalid Data';
         return callback(except, null);
       }
-      let aa = JSON.parse(data);
-      return callback(null, JSON.parse(data));
+      const parsed = JSON.parse(data);
+      return callback(null, parsed);
     });
   }
 };
-
-/*
-function getContent(filePath, callback){
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      try {
-        JSON.parse(data);
-      } catch (except) {
-        except.msg = 'Invalid Data';
-        return callback(except);
-      }
-      return callback(null, data);
-    });
-}
-*/
-//module.exports = getContent;
