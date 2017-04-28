@@ -5,7 +5,7 @@ const fs = require('fs');
  */
 
 module.exports = {
-  getContent(filePath, callback){
+  getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
       try {
         JSON.parse(data);

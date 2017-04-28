@@ -9,7 +9,7 @@ class InvertedIndex {
    * @param {*} fileContent
    */
   static createIndex(fileName, fileContent) {
-    
+    let filteredDocument = [];
   }
   /**
    * @return {Array} find
