@@ -10,20 +10,24 @@ class InvertedIndex {
    */
    createIndex(fileName, fileContent) {
      filter.contentFilter(fileContent, (filteredDocument) => {
-        const allWords = filteredDocument[filteredDocument.length - 2];
+        const allWords = filteredDocument[filteredDocument.length - 1];
+        console.log('allWords: ' + allWords.wordList);
         const wordList = allWords.wordList;
         const index = {};
-        for (let word in wordList) {
+        for (let item in wordList) {
             const wordArray = [];
-            for(let i = 0; i < filteredDocument.length - 2; i += 1) {
+            for(let i = 0; i < filteredDocument.length - 1; i += 1) {
                 let book = filteredDocument[i];
                 let wordsInBook = book.words;
-                if (wordsInBook.indexOf(word) !== -1) {
+                if (wordsInBook.indexOf(wordList[item]) !== -1) {
                     wordArray.push(i);
                 }
             }
+            let word = wordList[item];
+            console.log(wordArray);
             index[word] = wordArray;
         }
+        console.log(index);
         return index;
     });
   }

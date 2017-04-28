@@ -15,7 +15,6 @@ module.exports = {
         return callback(except, null);
       }
       let aa = JSON.parse(data);
-      console.log(aa instanceof Array);
       return callback(null, JSON.parse(data));
     });
   }
