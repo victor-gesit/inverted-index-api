@@ -34,10 +34,10 @@ function filterBook(book) {
 }
 
 
-module.exports.contentFilter = (data) => {
+module.exports.contentFilter = (data, callback) => {
   const allBooks = [];  // An array that will hold all the books, after they're sorted
   const allWords = {};  // An object that holds the wordList, a list of all words in the collection
-  const wordList = [];  // This goes into the allWords object, with a key wordList
+  let wordList = [];  // This goes into the allWords object, with a key wordList
   // Check to see if it's a single book, or books in an array
   if (data instanceof Object && data instanceof Array) {
     for (const book in data) {
@@ -50,8 +50,11 @@ module.exports.contentFilter = (data) => {
     allBooks.push(filteredBook);
     wordList.concat(filteredBook.words);
   }
-  // Add an entry into the allBooks array that contains all words in the collection
+  // Remove duplicates and sort wordList
+  wordList = removeDuplicatesAndSort(wordList);
+  // Add an entry into the allBooks array that contains all words in the collectfion
   allWords.wordList = wordList;
   allBooks.push(allWords);
+  callback(allBooks);
   return allBooks;
 };
