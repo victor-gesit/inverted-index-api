@@ -2,3 +2,6 @@ language: node_js
 node_js:
   - "node"
   - "iojs"
+after_success: 'npm run coveralls'
+notifications:
+  webhooks: https://coveralls.io/webhook?repo_token=RG7cZc2KFULEAmwYmyAnrrrjCYLDqdWDr
