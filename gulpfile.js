@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const jasmineNode = require('gulp-jasmine-node');
 const gls = require('gulp-live-server');
 const istanbul = require('gulp-istanbul');
+const coveralls = require('gulp-coveralls');
 
 require('dotenv').config();
 
@@ -32,7 +33,7 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('pre-coverage', () => {
+gulp.task('pre-test', () => {
   return gulp.src(['src/*.js', 'routes/*.js'])
     // Covering files
     .pipe(istanbul())
@@ -40,11 +41,16 @@ gulp.task('pre-coverage', () => {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('coverage', ['pre-coverage'], () => {
+gulp.task('test', ['pre-test'], () => {
   return gulp.src(['tests/inverted-index-test.js'])
     .pipe(jasmineNode())
     // Creating the reports after tests ran
     .pipe(istanbul.writeReports())
     // Enfore a coverage of at least 90%
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
+});
+
+gulp.task('coverage', ['test'], () => {
+  return gulp.src('coverage/**/lcov.info')
+    .pipe(coveralls());
 })
