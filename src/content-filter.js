@@ -39,7 +39,6 @@ function filterBook(book) {
   return sortedBook;
 }
 
-
 module.exports.contentFilter = (data, callback) => {
   const allBooks = [];  // An array that will hold all the books, after they're sorted
   const allWords = {};  // An object that holds the wordList, a list of all words in the collection
@@ -62,5 +61,5 @@ module.exports.contentFilter = (data, callback) => {
   allWords.wordList = wordList;
   allBooks.push(allWords);
   callback(allBooks);
-  return allBooks;
+  // return allBooks;
 };

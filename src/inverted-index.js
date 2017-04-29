@@ -1,4 +1,4 @@
-const filter = require('./contentFilter');
+const filter = require('./content-filter');
 const makeIndex = require('./make-index').makeIndex;
 /**
  * Implementing the Inverted Index search procedure
@@ -12,7 +12,6 @@ class InvertedIndex {
   createIndex(fileName, fileContent, done) {
     filter.contentFilter(fileContent, (filteredDocument) => {
       makeIndex(filteredDocument, (index) => {
-        console.log(index);
         return done(index);
       });
     });

@@ -11,7 +11,7 @@ const validObject = [
     text: 'is used'
   }
 ];
-const validJSON = JSON.stringify(validObject);
+// const validJSON = JSON.stringify(validObject);
 const expectedResult = {
   an: [0],
   into: [0, 1],
@@ -50,10 +50,10 @@ describe('Read book data', () => {
          done();
        });
     });
-    it('ensures proper respone when file is empty', (done) => {
+    it('ensures proper response when file is empty', (done) => {
       request
         .post('/api/create')
-        .send()
+        .send(null)
         .expect('Error: Empty File')
        .end((err, res) => {
          if (err) {
@@ -67,7 +67,7 @@ describe('Read book data', () => {
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
-        .send(validJSON)
+        .send(validObject)
         .expect(expectedResult)
        .end((err, res) => {
          if (err) {
@@ -79,7 +79,7 @@ describe('Read book data', () => {
     it('ensures index is correct', (done) => {
       request
         .post('/api/create')
-        .send(validJSON)
+        .send(validObject)
         .expect(expectedResult)
        .end((err, res) => {
          if (err) {
