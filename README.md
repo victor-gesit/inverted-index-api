@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/victor4l/inverted-index-api.svg?branch=master)](https://travis-ci.org/victor4l/inverted-index-api)
-[![Coverage Status](https://coveralls.io/repos/victor4l/inverted-index-api/badge.svg?branch=master)](https://coveralls.io/r/victor4l/inverted-index-api?branch=master)
+[![Build Status](https://travis-ci.org/victor4l/inverted-index-api.svg?branch=phase1)](https://travis-ci.org/victor4l/inverted-index-api)
+[![Coverage Status](https://coveralls.io/repos/victor4l/inverted-index-api/badge.svg?branch=phase1)](https://coveralls.io/r/victor4l/inverted-index-api?branch=master)
 # inVidex
 
 ## Introduction
