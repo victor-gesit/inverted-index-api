@@ -1,7 +1,8 @@
 const app = require('../app');
 const request = require('supertest')(app);
-
+const init = require('./init');
 // Test parameters for api/create route
+/*
 const validObject = [
   {
     title: 'An inquiry into',
@@ -12,116 +13,23 @@ const validObject = [
     text: 'is used'
   }
 ];
-const expectedResult = {
-  index: {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  },
-  titles: {
-    0: 'An inquiry into',
-    1: 'Into the'
-  }
-};
-const badJSON = 'abc';
+*/
+const validObject = init.validObject,
+  expectedResult = init.expectedResult,
+  badJSON = init.badJSON,
 
-/** Test parameters for api/search route */
-
-// A sample valid index submitted by the search query
-const sampleValidIndex = {
-  'book1.json': {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  }
-};
-// A sample invalid index
-const invalidIndex = {
-  'book1.json': { a: 'random obj' }
-};
-
-/** Searching for a single term */
-const searchTerm = 'into';  // A sample search term
-// A sample search query object submitted to the api/search route
-const singleTermSearch = {
-  index: sampleValidIndex,
-  terms: searchTerm
-};
-const singleTermResult = { into: [0, 1] };  // The expected result from the search
-
-/** Searching for an array of terms */
-const searchTermArray = ['an', 'into']; // A sample array of search terms
-// A sample search query submitted to the api/search route
-const arrayOfTermsSearch = {
-  index: sampleValidIndex,
-  terms: searchTermArray
-};
-// Expected result from the search
-const arrayOfTermsResult = {
-  an: [0],
-  string: [0, 1]
-};
-
-/** Searching multiple indices ('All' option) */
-const sampleValidIndex2 = {
-  'book2.json': {
-    an: [0, 1],
-    boy: [0, 1],
-    into: [0],
-    lost: [0, 1],
-    mango: [0],
-    table: [1],
-    train: [0],
-    user: [1]
-  }
-};
-
-// Sample search query object for single term search of multiple indices
-const multipleIndicesSearch = {
-  index: [sampleValidIndex, sampleValidIndex2],
-  terms: searchTerm
-};
-
-// Expected result
-const multipleIndicesResult = [
-  { into: [0, 1] },
-  { into: [0] }
-];
-
-// Sample search query object for multiple term search of multiple indices
-const multipleIndicesMultipleTermsSearch = {
-  index: [sampleValidIndex, sampleValidIndex2],
-  terms: searchTermArray
-};
-
-// Expected result
-const multipleIndicesMultipleTermsResult = [
-  { an: [0], into: [0, 1] },
-  { an: [0, 1], into: [0] }
-]
-
-/** Handling a varied number of search terms */
-const searchTermArray2 = ['an', 'inquiry']
-
-const variedTermsSearch = {
-  index: sampleValidIndex,
-  terms: [searchTerm, searchTermArray2]
-};
-const variedTermsSearchResult = {
-  an: [0],
-  inquiry: [0],
-  into: [0, 1]
-};
+  /** Test parameters for api/search route */
+  invalidIndex = init.invalidIndex,
+  singleTermSearch = init.singleTermSearch,
+  singleTermResult = init.singleTermResult,
+  arrayOfTermsSearch = init.arrayOfTermsSearch,
+  arrayOfTermsResult = init.arrayOfTermsResult,
+  multipleIndicesSearch = init.multipleIndicesSearch,
+  multipleIndicesResult = init.multipleIndicesResult,
+  multipleIndicesMultipleTermsSearch = init.multipleIndicesMultipleTermsSearch,
+  multipleIndicesMultipleTermsResult = init.multipleIndicesMultipleTermsResult,
+  variedTermsSearch = init.variedTermsSearch,
+  variedTermsResult = init.variedTermsResult;
 
 describe('Read book data', () => {
   describe('Read book data', () => {
@@ -130,7 +38,7 @@ describe('Read book data', () => {
        .post('/api/create')
        .send(badJSON)
        .expect({ error: 'malformed json' })
-       .end((err, res) => {
+       .end((err) => {
          if (err) {
            return done(err);
          }
@@ -142,7 +50,7 @@ describe('Read book data', () => {
        .post('/api/create')
        .send()
        .expect({ error: 'invalid file' })
-       .end((err, res) => {
+       .end((err) => {
          if (err) {
            return done(err);
          }
@@ -154,7 +62,7 @@ describe('Read book data', () => {
         .post('/api/create')
         .send(null)
         .expect({ error: 'empty file' })
-       .end((err, res) => {
+       .end((err) => {
          if (err) {
            return done(err);
          }
@@ -168,7 +76,7 @@ describe('Read book data', () => {
         .post('/api/create')
         .send(validObject)
         .expect(expectedResult)
-       .end((err, res) => {
+       .end((err) => {
          if (err) {
            return done(err);
          }
@@ -180,7 +88,7 @@ describe('Read book data', () => {
         .post('/api/create')
         .send(validObject)
         .expect(expectedResult)
-       .end((err, res) => {
+       .end((err) => {
          if (err) {
            return done(err);
          }
@@ -194,7 +102,7 @@ describe('Read book data', () => {
         .post('/api/search')
         .send(invalidIndex)
         .expect({ error: 'invalid index' })
-        .end((err, res) => {
+        .end((err) => {
           if (err) {
             return done(err);
           }
@@ -206,7 +114,7 @@ describe('Read book data', () => {
         .post('/api/search')
         .send(singleTermSearch)
         .expect(singleTermResult)
-        .end((err, res) => {
+        .end((err) => {
           if (err) {
             return done(err);
           }
@@ -218,7 +126,7 @@ describe('Read book data', () => {
         .post('api/search')
         .send(arrayOfTermsSearch)
         .expect(arrayOfTermsResult)
-        .end((err, res) => {
+        .end((err) => {
           if (err) {
             done(err);
           }
@@ -229,8 +137,8 @@ describe('Read book data', () => {
       request
         .post('api/search')
         .send(variedTermsSearch)
-        .expect(variedTermsSearchResult)
-        .end((err, res) => {
+        .expect(variedTermsResult)
+        .end((err) => {
           if (err) {
             done(err);
           }
@@ -242,7 +150,7 @@ describe('Read book data', () => {
         .post('/api/search')
         .send(multipleIndicesSearch)
         .expect(multipleIndicesResult)
-        .end((err, res) => {
+        .end((err) => {
           if (err) {
             done(err);
           }
@@ -254,7 +162,7 @@ describe('Read book data', () => {
         .post('/api/search')
         .send(multipleIndicesMultipleTermsSearch)
         .expect(multipleIndicesMultipleTermsResult)
-        .end((err, res) => {
+        .end((err) => {
           if (err) {
             done(err);
           }

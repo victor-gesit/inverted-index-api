@@ -21,7 +21,7 @@ class InvertedIndex {
    * @param {*} fileName
    * @param {*} terms
    */
-  static searchIndex(index, fileName, ...terms){
+  static searchIndex(index, fileName, ...terms) {
 
   }
 }

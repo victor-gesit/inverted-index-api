@@ -1,6 +1,5 @@
 const express = require('express');
 const invertedIndex = require('../src/inverted-index');
-const fileHandler = require('../src/file-handler');
 
 const router = express.Router();
 
