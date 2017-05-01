@@ -17,5 +17,13 @@ module.exports = {
       const parsed = JSON.parse(data);
       return callback(null, parsed);
     });
+  },
+  getIndex(fileName, callback) {
+    fs.readFile(`indices/${fileName}`, 'utf8', (err, data) => {
+      if (err) {
+        return callback(err, null);
+      }
+      return callback(null, data);
+    });
   }
 };

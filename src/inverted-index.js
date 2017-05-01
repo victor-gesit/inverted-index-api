@@ -6,14 +6,13 @@ const makeIndex = require('./make-index').makeIndex;
 class InvertedIndex {
   /**
    * @return {Object} index of supplied document
-   * @param {*} fileName
-   * @param {*} fileContent
+   * @param {string} fileName The name of the file whose index is to be created
+   * @param {string} fileContent The content of the file
+   * @param {function} done A callback, whose argument is the returned index
    */
   createIndex(fileName, fileContent, done) {
     filter.contentFilter(fileContent, (filteredDocument) => {
-      makeIndex(filteredDocument, (index) => {
-        return done(index);
-      });
+      makeIndex(filteredDocument, index => done(index));
     });
   }
   /**

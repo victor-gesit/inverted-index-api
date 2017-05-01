@@ -2,6 +2,4 @@ language: node_js
 node_js:
   - "node"
   - "iojs"
-after_success: 'gulp coveralls'
-notifications:
-  webhooks: https://coveralls.io/webhook?repo_token=RG7cZc2KFULEAmwYmyAnrrrjCYLDqdWDr
+script: gulp coverage

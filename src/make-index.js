@@ -3,18 +3,22 @@ module.exports = {
     const allWords = filteredDocument[filteredDocument.length - 1];
     const wordList = allWords.wordList;
     const index = {};
-    for (const item in wordList) {
+    const titles = {};
+    const indices = {};
+    wordList.forEach((word) => {
       const wordArray = [];
-      for(let i = 0; i < filteredDocument.length - 1; i += 1) {
+      for (let i = 0; i < filteredDocument.length - 1; i += 1) {
         const book = filteredDocument[i];
+        titles[i] = filteredDocument[i].title;
         const wordsInBook = book.words;
-        if (wordsInBook.indexOf(wordList[item]) !== -1) {
+        if (wordsInBook.indexOf(word) !== -1) {
           wordArray.push(i);
         }
       }
-      const word = wordList[item];
       index[word] = wordArray;
-    }
-    return done(index);
+      indices.index = index;
+      indices.titles = titles;
+    });
+    return done(indices);
   }
 };

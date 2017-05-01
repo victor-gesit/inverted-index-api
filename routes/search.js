@@ -10,5 +10,5 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   res.send('Search get route working');
-})
+});
 module.exports = router;
