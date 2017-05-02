@@ -1,10 +1,26 @@
 const express = require('express');
-const invertedIndex = require('../src/inverted-index');
+const InvertedIndex = require('../src/inverted-index');
+const async = require('async');
 
 const router = express.Router();
 
+const invertedIndex = new InvertedIndex();
+
 router.post('/', (req, res) => {
-  res.send('Search post route working');
+  const index = req.body.index,
+    terms = req.body.terms;
+    // fileName = req.body.fileName;
+  let searchResults = {};
+
+  async.series([
+    (callback) => {
+      searchResults = invertedIndex.searchIndex(index, 'book1.json', ...terms);
+      callback(null);
+    },
+    () => {
+      res.send(searchResults);
+    }
+  ]);
 });
 
 router.get('/', (req, res) => {

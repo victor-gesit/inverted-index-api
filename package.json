@@ -37,6 +37,7 @@
     "supertest": "^3.0.0"
   },
   "dependencies": {
+    "async": "^2.4.0",
     "body-parser": "^1.17.1",
     "codacy-coverage": "^2.0.2",
     "dotenv": "^4.0.0",

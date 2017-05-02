@@ -1,5 +1,5 @@
 module.exports = {
-  makeIndex(filteredDocument, done) {
+  makeIndex(fileName, filteredDocument, done) {
     const allWords = filteredDocument[filteredDocument.length - 1];
     const wordList = allWords.wordList;
     const index = {};
@@ -16,7 +16,7 @@ module.exports = {
         }
       }
       index[word] = wordArray;
-      indices.index = index;
+      indices[fileName] = index;
       indices.titles = titles;
     });
     return done(indices);

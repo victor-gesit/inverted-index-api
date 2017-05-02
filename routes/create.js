@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
     if (Object.keys(req.body).length === 0) {
       return res.send({ error: 'empty file' });
     }
-    invertedIndex.createIndex('First Book', req.body, (indices) => {
+    invertedIndex.createIndex('book1.json', req.body, (indices) => {
       res.send(indices);
     });
   });

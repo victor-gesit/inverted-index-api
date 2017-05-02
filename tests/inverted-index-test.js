@@ -1,19 +1,8 @@
 const app = require('../app');
 const request = require('supertest')(app);
 const init = require('./init');
+
 // Test parameters for api/create route
-/*
-const validObject = [
-  {
-    title: 'An inquiry into',
-    text: 'This string is'
-  },
-  {
-    title: 'Into the',
-    text: 'is used'
-  }
-];
-*/
 const validObject = init.validObject,
   expectedResult = init.expectedResult,
   badJSON = init.badJSON,
