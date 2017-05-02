@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.76% </span>
+        <span class="strong">80.56% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>25/33</span>
+        <span class='fraction'>29/36</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
@@ -30,18 +30,18 @@
         <span class='fraction'>3/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">88.89% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>8/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">79.41% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>24/32</span>
+        <span class='fraction'>27/34</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -114,8 +114,17 @@
 69
 70
 71
-72</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+72
+73
+74
+75
+76</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -141,7 +150,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,7 +168,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
@@ -177,7 +186,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -185,28 +193,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const filter = require('./content-filter');
-const makeIndex = require('./make-index').makeIndex;
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import filter from './content-filter';
+import makeAnIndex from './make-index';
+&nbsp;
+const makeIndex = makeAnIndex.makeIndex;
+&nbsp;
+// const filter = require('./content-filter');
+// const makeIndex = require('./make-index').makeIndex;
 &nbsp;
 &nbsp;
-function hasFileName(args) {
+const hasFileName = (args) =&gt; {
   const possibleFileName = args[0];
   const fileExtension = possibleFileName.split('.').pop();
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (fileExtension.toUpperCase() === 'JSON') {
+  if (<span class="missing-if-branch" title="else path not taken" >E</span>fileExtension.toUpperCase() === 'JSON') {
     return true;
   }
-}
+};
 &nbsp;
 &nbsp;
-function getTokens(items, tokensArray) {
+const getTokens = (items, tokensArray) =&gt; {
   items.forEach((element) =&gt; {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(element)) {
-<span class="cstat-no" title="statement not covered" >      getTokens(element, tokensArray);</span>
+    if (<span class="missing-if-branch" title="if path not taken" >I</span>Array.isArray(element)) {
+      getTokens(<span class="cstat-no" title="statement not covered" >element, tokensArray);</span>
     } else {
       tokensArray.push(element);
     }
   });
-}
+};
 &nbsp;
 &nbsp;
 /**
@@ -219,7 +232,7 @@ class InvertedIndex {
    * @param {string} fileContent The content of the file
    * @param {function} done A callback, whose argument is the returned index
    */
-  createIndex(fileName, fileContent, done) {
+  static createIndex(fileName, fileContent, done) {
     filter.contentFilter(fileContent, (filteredDocument) =&gt; {
       makeIndex(fileName, filteredDocument, index =&gt; done(index));
     });
@@ -230,10 +243,10 @@ class InvertedIndex {
    * @param {*} fileName
    * @param {*} terms
    */
-  searchIndex(index, ...terms) {
+  static searchIndex(index, ...terms) {
     const result = {};
     const tokens = [];
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (hasFileName(terms)) {
+    if (<span class="missing-if-branch" title="else path not taken" >E</span>hasFileName(terms)) {
       const fileName = terms[0];
       const indexForFile = index[fileName];
       const searchTerms = terms.slice(1, terms.length);
@@ -242,13 +255,12 @@ class InvertedIndex {
         result[token] = indexForFile[token];
       });
     } else {
-<span class="cstat-no" title="statement not covered" >      const fileName = Object.keys(index)[0];</span>
-<span class="cstat-no" title="statement not covered" >      console.log('fileName, Unnamed: ' + fileName);</span>
-<span class="cstat-no" title="statement not covered" >      const indexForFile = index[fileName];</span>
-<span class="cstat-no" title="statement not covered" >      const searchTerms = terms;</span>
-<span class="cstat-no" title="statement not covered" >      getTokens(searchTerms, tokens);</span>
-<span class="cstat-no" title="statement not covered" >      tokens.forEach((token) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        result[token] = indexForFile[token];</span>
+      const <span class="cstat-no" title="statement not covered" >fileName = Object.keys(index)[0];</span>
+      const <span class="cstat-no" title="statement not covered" >indexForFile = index[fileName];</span>
+      const <span class="cstat-no" title="statement not covered" >searchTerms = terms;</span>
+      getTokens(<span class="cstat-no" title="statement not covered" >searchTerms, tokens);</span>
+      tokens.<span class="cstat-no" title="statement not covered" >forEach(<span class="fstat-no" title="function not covered" >(token) =&gt; {</span></span>
+        result[<span class="cstat-no" title="statement not covered" >token] = indexForFile[token];</span>
       });
     }
     return result;
@@ -262,7 +274,7 @@ module.exports = InvertedIndex;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 02 2017 10:11:22 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:03:19 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
