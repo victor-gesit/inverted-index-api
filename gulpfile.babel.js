@@ -5,6 +5,7 @@ import istanbul from 'gulp-istanbul';
 import babel from 'gulp-babel';
 import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
+import gulpCoveralls from 'gulp-coveralls';
 
 
 // const gulp = require('gulp');
@@ -37,17 +38,20 @@ gulp.task('run-tests', () => {
 
 
 
-gulp.task('coverage', (cb) =>{
+gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])
     .pipe(gulpBabelIstanbul())
     .pipe(istanbul.hookRequire())
-    .on('finish', () =>{
+    .on('finish', () => {
       gulp.src('tests/inverted-index-test.js')
       .pipe(babel())
       .pipe(injectModules())
       .pipe(jasmineNode())
       .pipe(istanbul.writeReports())
       .pipe(istanbul.enforceThresholds({ thresholds: { global: 30 } }))
-      .on('end', cb);
+      .on('end', () => {
+        gulp.src('coverage/lcov.info')
+        .pipe(gulpCoveralls());
+      });
     });
 });

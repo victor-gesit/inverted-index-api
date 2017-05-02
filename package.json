@@ -4,7 +4,7 @@
   "description": "An application that implements the Inverted Index search functionality",
   "main": "index.js",
   "scripts": {
-    "test": "gulp run-tests",
+    "test": "gulp coverage",
     "start": "set NODE_ENV=PROD&& gulp serve"
   },
   "repository": {
