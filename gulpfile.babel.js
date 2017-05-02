@@ -2,8 +2,10 @@ import gulp from 'gulp';
 import jasmineNode from 'gulp-jasmine-node';
 import gls from 'gulp-live-server';
 import istanbul from 'gulp-istanbul';
-import coveralls from 'gulp-coveralls';
 import babel from 'gulp-babel';
+import injectModules from 'gulp-inject-modules';
+import gulpBabelIstanbul from 'gulp-babel-istanbul';
+
 
 // const gulp = require('gulp');
 // const jasmineNode = require('gulp-jasmine-node');
@@ -17,8 +19,6 @@ require('dotenv').config();
 gulp.task('default', () => {
   // Code for default gulp task goes here
 });
-
-// Transpile to ES6
 
 gulp.task('serve', () => {
   const server = gls.new('index.js');
@@ -35,26 +35,19 @@ gulp.task('run-tests', () => {
     .pipe(jasmineNode());
 });
 
-gulp.task('pre-test', () =>
+
+
+gulp.task('coverage', (cb) =>{
   gulp.src(['src/*.js', 'routes/*.js'])
-    .pipe(babel())
-    // Covering files
-    .pipe(istanbul())
-    // Force 'require' to return covered files
+    .pipe(gulpBabelIstanbul())
     .pipe(istanbul.hookRequire())
-);
-
-gulp.task('test', ['pre-test'], () =>
-  gulp.src(['tests/inverted-index-test.js'])
-    .pipe(babel())
-    .pipe(jasmineNode())
-    // Creating the reports after tests ran
-    .pipe(istanbul.writeReports())
-    // Enfore a coverage of at least 90%
-    .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-);
-
-gulp.task('coverage', ['test'], () =>
-  gulp.src('coverage/**/lcov.info')
-    .pipe(coveralls())
-);
+    .on('finish', () =>{
+      gulp.src('tests/inverted-index-test.js')
+      .pipe(babel())
+      .pipe(injectModules())
+      .pipe(jasmineNode())
+      .pipe(istanbul.writeReports())
+      .pipe(istanbul.enforceThresholds({ thresholds: { global: 30 } }))
+      .on('end', cb);
+    });
+});
