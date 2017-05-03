@@ -9,6 +9,7 @@ import fs from 'fs';
 module.exports = {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
+      fs.unlink(filePath);  // Delete file after reading to save space
       const errorObject = {};
       // Check for empty file
       if (data.length === 0) {
@@ -29,22 +30,22 @@ module.exports = {
           const hasTwoFields = Object.keys(book).length === 2;
           const hasTitleField = book.hasOwnProperty('title');
           const hasTextField = book.hasOwnProperty('text');
-          if (!hasTwoFields && !hasTitleField && !hasTextField) {
+          if (!hasTwoFields || !hasTitleField || !hasTextField) {
             errorObject.msg = { error: 'document structured incorectly' };
-            return callback(null, parsed);
+            return callback(errorObject, null);
           }
         });
+      } else {
+        const hasTwoFields = Object.keys(parsed).length === 2;
+        const hasTitleField = parsed.hasOwnProperty('title');
+        const hasTextField = parsed.hasOwnProperty('text');
+        if (!hasTwoFields || !hasTitleField || !hasTextField) {
+          errorObject.msg = { error: 'document structured incorectly' };
+          return callback(errorObject, null);
+        }
       }
-      console.log(parsed.length);
+
       return callback(null, parsed);
-    });
-  },
-  getIndex(fileName, callback) {
-    fs.readFile(`indices/${fileName}`, 'utf8', (err, data) => {
-      if (err) {
-        return callback(err, null);
-      }
-      return callback(null, data);
     });
   }
 };

@@ -15,6 +15,10 @@ const expectedResult = {
     the: [1],
     this: [0],
     used: [1]
+  },
+  titles: {
+    0: 'An inquiry into',
+    1: 'Into the'
   }
 };
 
@@ -50,7 +54,7 @@ describe('Read book data', () => {
       request
        .post('/api/create')
        .attach('file', 'fixtures/invalid-file-type.txt')
-       .expect({ error: 'invalid file' })
+       .expect({ error: 'invalid file type' })
        .end((err) => {
          if (err) {
            return done(err);
