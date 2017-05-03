@@ -1,18 +1,24 @@
 import express from 'express';
+import multer from 'multer';
 import fileHandler from '../src/file-handler';
+
+const upload = multer({ dest: 'uploads' });
 
 const router = express.Router();
 const InvertedIndex = require('../src/inverted-index');
 
-router.post('/', (req, res) => {
-  fileHandler.getContent('fixtures/book2.json', (err, /* content*/) => {
+router.post('/', upload.single('file'), (req, res) => {
+  const originalFileName = req.file.originalname;
+  const fileName = req.file.filename;
+  console.log(req.file.originalname);
+  fileHandler.getContent(`uploads/${fileName}`, (err, content) => {
     if (err) {
       return res.send({ error: 'malformed json' });
     }
-    if (Object.keys(req.body).length === 0) {
+    if (content === null) {
       return res.send({ error: 'empty file' });
     }
-    InvertedIndex.createIndex('book1.json', req.body, (indices) => {
+    InvertedIndex.createIndex(originalFileName, content, (indices) => {
       res.send(indices);
     });
   });

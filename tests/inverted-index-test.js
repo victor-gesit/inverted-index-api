@@ -37,7 +37,7 @@ describe('Read book data', () => {
     it('ensures proper response when file is malformed', (done) => {
       request
        .post('/api/create')
-       .attach('file', '../fixtures/malformed-file.json')
+       .attach('file', 'fixtures/malformed.json')
        .expect({ error: 'malformed json' })
        .end((err) => {
          if (err) {
@@ -49,7 +49,7 @@ describe('Read book data', () => {
     it('ensures proper response when file is invalid', (done) => {
       request
        .post('/api/create')
-       .attach('file', '../fixtures/invalid-file-type.txt')
+       .attach('file', 'fixtures/invalid-file-type.txt')
        .expect({ error: 'invalid file' })
        .end((err) => {
          if (err) {
@@ -61,7 +61,7 @@ describe('Read book data', () => {
     it('ensures proper response when file is empty', (done) => {
       request
         .post('/api/create')
-        .attach('file', '../fixtures/empty-file.json')
+        .attach('file', 'fixtures/empty-file.json')
         .expect({ error: 'empty file' })
        .end((err) => {
          if (err) {
@@ -75,7 +75,7 @@ describe('Read book data', () => {
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
-        .attach('file', '../fixtures/valid-file.json')
+        .attach('file', 'fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {
@@ -87,7 +87,7 @@ describe('Read book data', () => {
     it('ensures index is correct', (done) => {
       request
         .post('/api/create')
-        .attach('file', '../fixtures/valid-file.json')
+        .attach('file', 'fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {

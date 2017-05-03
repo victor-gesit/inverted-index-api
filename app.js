@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import create from './routes/create';
 import search from './routes/search';
 
@@ -21,8 +20,6 @@ switch (process.env.NODE_ENV) {
 }
 
 // Middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/create', create);
 app.use('/api/search', search);

@@ -1,9 +1,14 @@
 import express from 'express';
 import async from 'async';
+import bodyParser from 'body-parser';
 import InvertedIndex from '../src/inverted-index';
+
 
 const router = express.Router();
 
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
 router.post('/', (req, res) => {
   const index = req.body.index,
     terms = req.body.terms;
