@@ -7,18 +7,7 @@ import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
 
 
-// const gulp = require('gulp');
-// const jasmineNode = require('gulp-jasmine-node');
-// const gls = require('gulp-live-server');
-// const istanbul = require('gulp-istanbul');
-// const coveralls = require('gulp-coveralls');
-// const babel = require('gulp-babel');
-
 require('dotenv').config();
-
-gulp.task('default', () => {
-  // Code for default gulp task goes here
-});
 
 gulp.task('serve', () => {
   const server = gls.new('index.js');
@@ -34,8 +23,6 @@ gulp.task('run-tests', () => {
     .pipe(babel())
     .pipe(jasmineNode());
 });
-
-
 
 gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])

@@ -12,15 +12,14 @@ const app = express();
 require('dotenv').config();
 
 // Set port
-/*
+
 switch (process.env.NODE_ENV) {
   case 'TEST': app.set('PORT', process.env.PORT_TEST); break;
   case 'PROD': app.set('PORT', process.env.PORT_PROD); break;
   case 'DEV': app.set('PORT', process.env.PORT_DEV); break;
   default: app.set('PORT', 5000);
-}*/
-app.set('PORT', 3000);
-console.log(process.env.NODE_ENV);
+}
+
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

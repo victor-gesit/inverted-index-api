@@ -3,10 +3,6 @@ import makeAnIndex from './make-index';
 
 const makeIndex = makeAnIndex.makeIndex;
 
-// const filter = require('./content-filter');
-// const makeIndex = require('./make-index').makeIndex;
-
-
 const hasFileName = (args) => {
   const possibleFileName = args[0];
   const fileExtension = possibleFileName.split('.').pop();

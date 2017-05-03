@@ -2,15 +2,11 @@ import express from 'express';
 import async from 'async';
 import InvertedIndex from '../src/inverted-index';
 
-// const express = require('express');
-// const InvertedIndex = require('../src/inverted-index');
-// const async = require('async');
 const router = express.Router();
 
 router.post('/', (req, res) => {
   const index = req.body.index,
     terms = req.body.terms;
-    // fileName = req.body.fileName;
   let searchResults = {};
 
   async.series([

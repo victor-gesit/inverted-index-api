@@ -1,5 +1,5 @@
 import fs from 'fs';
-// const fs = require('fs');
+
 /**
  * @return {String} The content of the read file.
  * @param {String} filePath The path to the file to be read.

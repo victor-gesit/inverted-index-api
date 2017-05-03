@@ -39,24 +39,7 @@ function filterBook(book) {
 }
 
 /**
- * data comes in as
- * [
-  {
-    "title": "Alice in Wonderland",
-    "text": "Alice falls into a rabbit hole and enters a world full of imagination."
-  },
-  {
-    "title": "Eze Goes to School",
-    "text": "Eze was such a funny kid at school while alice is in wonderland"
-  }
-  ]
-  AND LEAVES AS
-  [
-    {[{title: 'Alice in Wonderland', words:['a', 'alice', 'enters', 'falls', ...]},
-      {title: 'Eze Goes to School', words:['a', 'alice', 'at', 'eze', 'funny', ...]}
-    ]},
-    {allwords: [a, alice, at, eze, funny, ...]}
-  ]
+ *
  * @param {JSON} data the data supplied from file or req.body
  * @param {function} callback the callback, whose argument is the returned filtered data
  * @return {null} returns nothing

@@ -1,9 +1,6 @@
 import express from 'express';
 import fileHandler from '../src/file-handler';
 
-// const express = require('express');
-// const fileHandler = require('../src/file-handler');
-
 const router = express.Router();
 const InvertedIndex = require('../src/inverted-index');
 

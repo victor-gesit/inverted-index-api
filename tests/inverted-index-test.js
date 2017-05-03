@@ -1,35 +1,43 @@
 import supertest from 'supertest';
 import app from '../app';
-import fixture from '../fixtures/init';
-// const app = require('../app');
-// const request = require('supertest')(app);
-// const fixture = require('../fixtures/init');
+import searchFixture from '../fixtures/search-fixtures';
+
 const request = supertest(app);
 
-// Test parameters for api/create route
-const validObject = fixture.validObject,
-  expectedResult = fixture.expectedResult,
-  badJSON = fixture.badJSON,
+// Expected test result for search route when valid file is supplied
+const expectedResult = {
+  'valid-file.json': {
+    an: [0],
+    into: [0, 1],
+    inquiry: [0],
+    is: [0, 1],
+    string: [0],
+    the: [1],
+    this: [0],
+    used: [1]
+  }
+};
 
   /** Test parameters for api/search route */
-  invalidIndex = fixture.invalidIndex,
-  singleTermSearch = fixture.singleTermSearch,
-  singleTermResult = fixture.singleTermResult,
-  arrayOfTermsSearch = fixture.arrayOfTermsSearch,
-  arrayOfTermsResult = fixture.arrayOfTermsResult,
-  multipleIndicesSearch = fixture.multipleIndicesSearch,
-  multipleIndicesResult = fixture.multipleIndicesResult,
-  multipleIndicesMultipleTermsSearch = fixture.multipleIndicesMultipleTermsSearch,
-  multipleIndicesMultipleTermsResult = fixture.multipleIndicesMultipleTermsResult,
-  variedTermsSearch = fixture.variedTermsSearch,
-  variedTermsResult = fixture.variedTermsResult;
+const
+  invalidIndex = searchFixture.invalidIndex,
+  singleTermSearch = searchFixture.singleTermSearch,
+  singleTermResult = searchFixture.singleTermResult,
+  arrayOfTermsSearch = searchFixture.arrayOfTermsSearch,
+  arrayOfTermsResult = searchFixture.arrayOfTermsResult,
+  multipleIndicesSearch = searchFixture.multipleIndicesSearch,
+  multipleIndicesResult = searchFixture.multipleIndicesResult,
+  multipleIndicesMultipleTermsSearch = searchFixture.multipleIndicesMultipleTermsSearch,
+  multipleIndicesMultipleTermsResult = searchFixture.multipleIndicesMultipleTermsResult,
+  variedTermsSearch = searchFixture.variedTermsSearch,
+  variedTermsResult = searchFixture.variedTermsResult;
 
 describe('Read book data', () => {
   describe('Read book data', () => {
     it('ensures proper response when file is malformed', (done) => {
       request
        .post('/api/create')
-       .send(badJSON)
+       .attach('file', '../fixtures/malformed-file.json')
        .expect({ error: 'malformed json' })
        .end((err) => {
          if (err) {
@@ -39,10 +47,9 @@ describe('Read book data', () => {
        });
     });
     it('ensures proper response when file is invalid', (done) => {
-      /*
       request
        .post('/api/create')
-       .send()
+       .attach('file', '../fixtures/invalid-file-type.txt')
        .expect({ error: 'invalid file' })
        .end((err) => {
          if (err) {
@@ -50,12 +57,11 @@ describe('Read book data', () => {
          }
          done();
        });
-       */
     });
     it('ensures proper response when file is empty', (done) => {
       request
         .post('/api/create')
-        .send(null)
+        .attach('file', '../fixtures/empty-file.json')
         .expect({ error: 'empty file' })
        .end((err) => {
          if (err) {
@@ -69,7 +75,7 @@ describe('Read book data', () => {
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
-        .send(validObject)
+        .attach('file', '../fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {
@@ -81,7 +87,7 @@ describe('Read book data', () => {
     it('ensures index is correct', (done) => {
       request
         .post('/api/create')
-        .send(validObject)
+        .attach('file', '../fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {
