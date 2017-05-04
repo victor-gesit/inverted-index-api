@@ -1,8 +1,10 @@
 import supertest from 'supertest';
 import app from '../app';
 import searchFixture from '../fixtures/search-fixtures';
+import InvertedIndex from '../src/inverted-index';
 
 const request = supertest(app);
+const invertedIndex = new InvertedIndex();
 
 // Expected test result for search route when valid file is supplied
 const expectedResult = {
@@ -24,16 +26,15 @@ const expectedResult = {
 
   /** Test parameters for api/search route */
 const
+  searchTerm = searchFixture.searchTerm,
+  searchTermArray = searchFixture.searchTermArray,
+  validIndex = searchFixture.sampleValidIndex,
   invalidIndex = searchFixture.invalidIndex,
-  singleTermSearch = searchFixture.singleTermSearch,
   singleTermResult = searchFixture.singleTermResult,
-  arrayOfTermsSearch = searchFixture.arrayOfTermsSearch,
   arrayOfTermsResult = searchFixture.arrayOfTermsResult,
-  multipleIndicesSearch = searchFixture.multipleIndicesSearch,
+  multipleIndices = searchFixture.multipleIndices,
   multipleIndicesResult = searchFixture.multipleIndicesResult,
-  multipleIndicesMultipleTermsSearch = searchFixture.multipleIndicesMultipleTermsSearch,
   multipleIndicesMultipleTermsResult = searchFixture.multipleIndicesMultipleTermsResult,
-  variedTermsSearch = searchFixture.variedTermsSearch,
   variedTermsResult = searchFixture.variedTermsResult;
 
 describe('Read book data', () => {
@@ -103,76 +104,40 @@ describe('Read book data', () => {
   });
   describe('Search Index', () => {
     it('ensures passed in index is in valid format', (done) => {
-      request
-        .post('/api/search')
-        .send(invalidIndex)
-        .expect({ error: 'invalid index' })
-        .end((err) => {
-          if (err) {
-            return done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
+      expect(expectation)
+        .toEqual({ error: 'invalid index' });
+      done();
     });
     it('ensures index returns the correct result when searched', (done) => {
-      request
-        .post('/api/search')
-        .send(singleTermSearch)
-        .expect(singleTermResult)
-        .end((err) => {
-          if (err) {
-            return done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(validIndex, 'into');
+      expect(expectation)
+        .toEqual(singleTermResult);
+      done();
     });
     it('ensures searchIndex can handle an array of search items', (done) => {
-      request
-        .post('api/search')
-        .send(arrayOfTermsSearch)
-        .expect(arrayOfTermsResult)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(validIndex, searchTermArray);
+      expect(expectation)
+        .toEqual(arrayOfTermsResult);
+      done();
     });
     it('ensures searchIndex can handle a varied number of search terms as arguments', (done) => {
-      request
-        .post('api/search')
-        .send(variedTermsSearch)
-        .expect(variedTermsResult)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(validIndex, 'into', ['an', 'inquiry']);
+      expect(expectation)
+        .toEqual(variedTermsResult);
+      done();
     });
     it('ensures goes through all indexed files if a filename/key is not passed', (done) => {
-      request
-        .post('/api/search')
-        .send(multipleIndicesSearch)
-        .expect(multipleIndicesResult)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(multipleIndices, searchTerm);
+      expect(expectation)
+        .toEqual(multipleIndicesResult);
+      done();
     });
     it('can search multiple indices for an array of search terms', (done) => {
-      request
-        .post('/api/search')
-        .send(multipleIndicesMultipleTermsSearch)
-        .expect(multipleIndicesMultipleTermsResult)
-        .end((err) => {
-          if (err) {
-            done(err);
-          }
-          done();
-        });
+      const expectation = invertedIndex.searchIndex(multipleIndices, searchTermArray);
+      expect(expectation)
+        .toEqual(multipleIndicesMultipleTermsResult);
+      done();
     });
   });
 });

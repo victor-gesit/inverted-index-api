@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.67% </span>
+        <span class="strong">95.24% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/15</span>
+        <span class='fraction'>20/21</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">75% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">86.67% </span>
+        <span class="strong">95.24% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>13/15</span>
+        <span class='fraction'>20/21</span>
       </div>
     </div>
   </div>
@@ -70,25 +70,43 @@
 25
 26
 27
-28</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -98,23 +116,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
+import multer from 'multer';
 import fileHandler from '../src/file-handler';
 &nbsp;
-// const express = require('express');
-// const fileHandler = require('../src/file-handler');
+const upload = multer({ dest: 'uploads' });
 &nbsp;
 const router = express.Router();
 const InvertedIndex = require('../src/inverted-index');
 &nbsp;
-router.post('/', (req, res) =&gt; {
-  fileHandler.getContent('fixtures/book2.json', (err, /* content*/) =&gt; {
-    if (<span class="missing-if-branch" title="if path not taken" >I</span>err) {
-      return <span class="cstat-no" title="statement not covered" >res.send({ error: 'malformed json' });</span>
+const invertedIndex = new InvertedIndex();
+&nbsp;
+router.post('/', upload.single('file'), (req, res) =&gt; {
+  const originalFileName = req.file.originalname;
+  const filePath = req.file.path;
+&nbsp;
+  // Check for valid file type
+  const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
+  if (fileExtension !== 'JSON') {
+    // fs.unlink(filePath);  // Delete temporary file
+    return res.send({ error: 'invalid file type' });
+  }
+  // Read file from temporary storage
+  fileHandler.getContent(filePath, (err, content) =&gt; {
+    if (err) {
+      return res.send(err.msg);
     }
-    if (Object.keys(req.body).length === 0) {
-      return res.send({ error: 'empty file' });
-    }
-    InvertedIndex.createIndex('book1.json', req.body, (indices) =&gt; {
+    invertedIndex.createIndex(originalFileName, content, (indices) =&gt; {
       res.send(indices);
     });
   });
@@ -130,7 +157,7 @@ module.exports = router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:03:19 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 04 2017 13:38:12 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

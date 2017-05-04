@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.85% </span>
+        <span class="strong">70.37% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/13</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/2</span>
+        <span class='fraction'>19/27</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">50% </span>
-        <span class="quiet">Functions</span>
-        <span class='fraction'>2/4</span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.85% </span>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70.37% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>7/13</span>
+        <span class='fraction'>19/27</span>
       </div>
     </div>
   </div>
@@ -73,7 +73,28 @@
 28
 29
 30
-31</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -84,27 +105,48 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fs from 'fs';
-// const fs = require('fs');
+&nbsp;
 /**
  * @return {String} The content of the read file.
  * @param {String} filePath The path to the file to be read.
@@ -114,22 +156,43 @@
 module.exports = {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) =&gt; {
+      // fs.unlink(filePath);  // Delete file after reading to save space
+      const errorObject = {};
+      // Check for empty file
+      if (data.length === 0) {
+        errorObject.msg = { error: 'empty file' };
+        return callback(errorObject, null);
+      }
+      // Check for malformed file
       try {
         JSON.parse(data);
       } catch (except) {
-        except.<span class="cstat-no" title="statement not covered" >msg = 'Invalid Data';</span>
-        return <span class="cstat-no" title="statement not covered" >callback(except, null);</span>
+        errorObject.msg = { error: 'malformed json' };
+        return callback(errorObject, null);
       }
+      // Check for incorrect document structure
       const parsed = JSON.parse(data);
-      return callback(null, parsed);
-    });
-  },
-  getIndex(<span class="fstat-no" title="function not covered" >fileName, callback) {</span>
-    fs.<span class="cstat-no" title="statement not covered" >readFile(`indices/${fileName}`, 'utf8', <span class="fstat-no" title="function not covered" >(err, data) =&gt; {</span></span>
-      if (<span class="cstat-no" title="statement not covered" >err) {</span>
-        return <span class="cstat-no" title="statement not covered" >callback(err, null);</span>
+      if (<span class="missing-if-branch" title="else path not taken" >E</span>parsed instanceof Array) {
+        parsed.forEach((book) =&gt; {
+          const hasTwoFields = Object.keys(book).length === 2;
+          const hasTitleField = book.hasOwnProperty('title');
+          const hasTextField = book.hasOwnProperty('text');
+          if (<span class="missing-if-branch" title="if path not taken" >I</span>!hasTwoFields || !hasTitleField || !hasTextField) {
+            errorObject.<span class="cstat-no" title="statement not covered" >msg = { error: 'document structured incorectly' };</span>
+            return <span class="cstat-no" title="statement not covered" >callback(errorObject, null);</span>
+          }
+        });
+      } else {
+        const <span class="cstat-no" title="statement not covered" >hasTwoFields = Object.keys(parsed).length === 2;</span>
+        const <span class="cstat-no" title="statement not covered" >hasTitleField = parsed.hasOwnProperty('title');</span>
+        const <span class="cstat-no" title="statement not covered" >hasTextField = parsed.hasOwnProperty('text');</span>
+        if (<span class="cstat-no" title="statement not covered" >!hasTwoFields || !hasTitleField || !hasTextField) {</span>
+          errorObject.<span class="cstat-no" title="statement not covered" >msg = { error: 'document structured incorectly' };</span>
+          return <span class="cstat-no" title="statement not covered" >callback(errorObject, null);</span>
+        }
       }
-      return <span class="cstat-no" title="statement not covered" >callback(null, data);</span>
+&nbsp;
+      return callback(null, parsed);
     });
   }
 };
@@ -139,7 +202,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:03:19 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 04 2017 13:38:12 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.86% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>13/14</span>
+        <span class='fraction'>14/21</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>1/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.86% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>13/14</span>
+        <span class='fraction'>14/21</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -73,28 +73,40 @@
 28
 29
 30
-31</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+31
+32
+33
+34
+35
+36
+37</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -105,26 +117,32 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from 'express';
 import async from 'async';
+import bodyParser from 'body-parser';
 import InvertedIndex from '../src/inverted-index';
 &nbsp;
-// const express = require('express');
-// const InvertedIndex = require('../src/inverted-index');
-// const async = require('async');
 const router = express.Router();
 &nbsp;
+// Middle wares
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
+const invertedIndex = new InvertedIndex();
 router.post('/', (req, res) =&gt; {
-  const index = req.body.index,
-    terms = req.body.terms;
-    // fileName = req.body.fileName;
   let searchResults = {};
-&nbsp;
-  async.series([
-    (callback) =&gt; {
-      searchResults = InvertedIndex.searchIndex(index, 'book1.json', ...terms);
-      callback(null);
+  const index = req.body.index,
+    terms = req.body.terms,
+    fileName = req.body.fileName;
+  const indexObject = JSON.parse(index);
+  async.<span class="cstat-no" title="statement not covered" >series([</span>
+<span class="fstat-no" title="function not covered" >    (callback) =&gt; {</span>
+      if (<span class="cstat-no" title="statement not covered" >fileName === undefined || fileName.length === 0) {</span>
+        searchResults = <span class="cstat-no" title="statement not covered" >invertedIndex.searchIndex(indexObject, terms);</span>
+      } else {
+        searchResults = <span class="cstat-no" title="statement not covered" >invertedIndex.searchIndex(indexObject, fileName, terms);</span>
+      }
+      callback(<span class="cstat-no" title="statement not covered" >null);</span>
     },
-    () =&gt; {
-      res.send(searchResults);
+<span class="fstat-no" title="function not covered" >    () =&gt; {</span>
+      res.<span class="cstat-no" title="statement not covered" >send(searchResults);</span>
     }
   ]);
 });
@@ -139,7 +157,7 @@ module.exports = router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 02 2017 17:03:19 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 04 2017 13:38:12 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

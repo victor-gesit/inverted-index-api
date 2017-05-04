@@ -44,6 +44,7 @@ class InvertedIndex {
    * @param {function} done A callback, whose argument is the returned index
    */
   createIndex(fileName, fileContent, done) {
+    this.index = {};
     filter.contentFilter(fileContent, (filteredDocument) => {
       makeIndex(fileName, filteredDocument, index => done(index));
     });
@@ -57,21 +58,29 @@ class InvertedIndex {
   searchIndex(index, ...terms) {
     const result = {};
     const tokens = [];
+
+    // Check to see if file name was specified
     if (this.hasFileName(terms)) {
+      const fileIndex = {};
       const fileName = terms[0];
       const indexForFile = index[fileName];
       const searchTerms = terms.slice(1, terms.length);
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {
-        result[token] = indexForFile[token];
+        fileIndex[token] = indexForFile[token];
       });
+      result[fileName] = fileIndex;
     } else {
-      const fileName = Object.keys(index)[0];
-      const indexForFile = index[fileName];
-      const searchTerms = terms;
-      this.getTokens(searchTerms, tokens);
-      tokens.forEach((token) => {
-        result[token] = indexForFile[token];
+      // Loop through index object for all files
+      Object.keys(index).forEach((fileName) => {
+        const fileIndex = {};
+        const indexForFile = index[fileName];
+        const searchTerms = terms;
+        this.getTokens(searchTerms, tokens);
+        tokens.forEach((token) => {
+          fileIndex[token] = indexForFile[token];
+        });
+        result[fileName] = fileIndex;
       });
     }
     return result;

@@ -70,23 +70,27 @@ module.exports.singleTermResult = singleTermResult;
 
 /** Searching for an array of terms */
 const searchTermArray = ['an', 'into']; // A sample array of search terms
-// A sample search query submitted to the api/search route
-
-const arrayOfTermsSearch = {
-  index: sampleValidIndex,
-  terms: searchTermArray
-};
-module.exports.arrayOfTermsSearch = arrayOfTermsSearch;
+module.exports.searchTermArray = searchTermArray;
 
 // Expected result from the search
 const arrayOfTermsResult = {
   an: [0],
-  string: [0, 1]
+  into: [0, 1]
 };
 module.exports.arrayOfTermsResult = arrayOfTermsResult;
 
 /** Searching multiple indices ('All' option) */
-const sampleValidIndex2 = {
+const multipleIndices = {
+  'book1.json': {
+    an: [0],
+    into: [0, 1],
+    inquiry: [0],
+    is: [0, 1],
+    string: [0],
+    the: [1],
+    this: [0],
+    used: [1]
+  },
   'book2.json': {
     an: [0, 1],
     boy: [0, 1],
@@ -98,14 +102,7 @@ const sampleValidIndex2 = {
     user: [1]
   }
 };
-module.exports.sampleValidIndex2 = sampleValidIndex2;
-
-// Sample search query object for single term search of multiple indices
-const multipleIndicesSearch = {
-  index: [sampleValidIndex, sampleValidIndex2],
-  terms: searchTerm
-};
-module.exports.multipleIndicesSearch = multipleIndicesSearch;
+module.exports.multipleIndices = multipleIndices;
 
 // Expected result
 const multipleIndicesResult = [
@@ -115,12 +112,6 @@ const multipleIndicesResult = [
 module.exports.multipleIndicesResult = multipleIndicesResult;
 
 // Sample search query object for multiple term search of multiple indices
-const multipleIndicesMultipleTermsSearch = {
-  index: [sampleValidIndex, sampleValidIndex2],
-  terms: searchTermArray
-};
-module.exports.multipleIndicesMultipleTermsSearch = multipleIndicesMultipleTermsSearch;
-
 // Expected result
 const multipleIndicesMultipleTermsResult = [
   { an: [0], into: [0, 1] },
@@ -129,18 +120,10 @@ const multipleIndicesMultipleTermsResult = [
 module.exports.multipleIndicesMultipleTermsResult = multipleIndicesMultipleTermsResult;
 
 /** Handling a varied number of search terms */
-const searchTermArray2 = ['an', 'inquiry'];
-module.exports.searchTermArray2 = searchTermArray2;
-
-const variedTermsSearch = {
-  index: sampleValidIndex,
-  terms: [searchTerm, searchTermArray2]
-};
-module.exports.variedTermsSearch = variedTermsSearch;
 
 const variedTermsResult = {
   an: [0],
   inquiry: [0],
   into: [0, 1]
 };
-module.exports.variedTermsSearchResult = variedTermsResult;
+module.exports.variedTermsResult = variedTermsResult;

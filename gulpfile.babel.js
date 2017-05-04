@@ -6,7 +6,6 @@ import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
 
-
 require('dotenv').config();
 
 gulp.task('serve', () => {
@@ -21,8 +20,10 @@ gulp.task('serve', () => {
 gulp.task('run-tests', () => {
   gulp.src('tests/inverted-index-test.js')
     .pipe(babel())
+    .pipe(injectModules())
     .pipe(jasmineNode());
 });
+
 
 gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])
