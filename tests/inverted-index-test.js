@@ -35,7 +35,9 @@ const
   multipleIndices = searchFixture.multipleIndices,
   multipleIndicesResult = searchFixture.multipleIndicesResult,
   multipleIndicesMultipleTermsResult = searchFixture.multipleIndicesMultipleTermsResult,
-  variedTermsResult = searchFixture.variedTermsResult;
+  variedTermsResult = searchFixture.variedTermsResult,
+  fileNamedResult = searchFixture.fileNamedResult,
+  singleBookResult = searchFixture.singleBookResult;
 
 describe('Read book data', () => {
   describe('Read book data', () => {
@@ -50,6 +52,30 @@ describe('Read book data', () => {
          }
          done();
        });
+    });
+    it('it give proper response for file with bad content, though valid json', (done) => {
+      request
+        .post('/api/create')
+        .attach('file', 'fixtures/incorrectly-structured.json')
+        .expect({ error: 'document structured incorectly' })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('it gives proper response for file with bad content, though valid json array', (done) => {
+      request
+        .post('/api/create')
+        .attach('file', 'fixtures/incorrectly-structured-2.json')
+        .expect({ error: 'document structured incorrectly' })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
     });
     it('ensures proper response when file is invalid', (done) => {
       request
@@ -89,6 +115,18 @@ describe('Read book data', () => {
          done();
        });
     });
+    it('ensures index gives response for files with a single book', (done) => {
+      request
+        .post('/api/create')
+        .attach('file', 'fixtures/single-book.json')
+        .expect(singleBookResult)
+      .end((err) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+    });
     it('ensures index is correct', (done) => {
       request
         .post('/api/create')
@@ -104,9 +142,7 @@ describe('Read book data', () => {
   });
   describe('Search Index', () => {
     it('ensures passed in index is in valid format', (done) => {
-      console.log('BEFOREBEFOREBEFOREBEFORE');
       const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
-      console.log('HERERERERERERERE');
       expect(expectation)
         .toEqual({ error: 'invalid index' });
       done();
@@ -127,6 +163,12 @@ describe('Read book data', () => {
       const expectation = invertedIndex.searchIndex(validIndex, 'into', ['an', 'inquiry']);
       expect(expectation)
         .toEqual(variedTermsResult);
+      done();
+    });
+    it('ensures searchIndex returns specific index when file name is specified', (done) => {
+      const expectation = invertedIndex.searchIndex(multipleIndices, 'book1.json', ['an', 'into']);
+      expect(expectation)
+        .toEqual(fileNamedResult);
       done();
     });
     it('ensures goes through all indexed files if a filename/key is not passed', (done) => {

@@ -8,6 +8,7 @@ const router = express.Router();
 // Middle wares
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
+
 const invertedIndex = new InvertedIndex();
 router.post('/', (req, res) => {
   let searchResults = {};
@@ -30,7 +31,4 @@ router.post('/', (req, res) => {
   ]);
 });
 
-router.get('/', (req, res) => {
-  res.send('Search get route working');
-});
 module.exports = router;

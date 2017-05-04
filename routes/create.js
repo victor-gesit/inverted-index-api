@@ -31,7 +31,4 @@ router.post('/', upload.single('file'), (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
-  res.send('Get method working for create route');
-});
 module.exports = router;

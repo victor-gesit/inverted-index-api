@@ -1,16 +1,18 @@
 // Test parameters for api/create route
-const validObject = [
-  {
-    title: 'An inquiry into',
-    text: 'This string is'
+const singleBookResult = {
+  'single-book.json': {
+    eze: [0],
+    goes: [0],
+    was: [0],
+    such: [0]
   },
-  {
-    title: 'Into the',
-    text: 'is used'
+  titles: {
+    0: 'Eze goes'
   }
-];
-module.exports.validObject = validObject;
+};
+module.exports.singleBookResult = singleBookResult;
 
+// expected result for correct input from valid-file.json
 const expectedResult = {
   index: {
     an: [0],
@@ -128,3 +130,11 @@ const variedTermsResult = {
   }
 };
 module.exports.variedTermsResult = variedTermsResult;
+
+const fileNamedResult = {
+  'book1.json': {
+    an: [0],
+    into: [0, 1]
+  }
+};
+module.exports.fileNamedResult = fileNamedResult;

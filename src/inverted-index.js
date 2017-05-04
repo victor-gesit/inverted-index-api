@@ -70,7 +70,6 @@ class InvertedIndex {
         // check content of file
         if (!((index[fileName][token]) instanceof Array)) {
           validIndex = false;
-          return false;
         } else {
           (index[fileName][token]).forEach((digit) => {
             if ((typeof digit) !== 'number') {
@@ -109,22 +108,6 @@ class InvertedIndex {
       });
     }
     return result;
-  }
-  /**
-   * Checks to see if index is in valid format
-   * @return {Boolean} validity of index
-   * @param {index} index The index to be validated
-   */
-  validate(index, valid) {
-    this.index = index;
-    Object.keys(index).forEach((fileName) => {
-      if (!((typeof fileName) === 'string')) {
-        return false;
-      } else if (!(index[fileName] instanceof Object)) {
-        return false;
-      }
-      return true;
-    });
   }
 }
 

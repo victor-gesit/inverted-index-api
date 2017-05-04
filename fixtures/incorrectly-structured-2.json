@@ -1,0 +1,10 @@
+[
+  {
+    "name" : "This field should be called title",
+    "number": "This field should be called text"
+  },
+  {
+    "nom": "This field should be called title too",
+    "text": "This field should be called text too"
+  }
+]
