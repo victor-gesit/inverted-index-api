@@ -58,7 +58,32 @@ class InvertedIndex {
   searchIndex(index, ...terms) {
     const result = {};
     const tokens = [];
-
+    let validIndex = true;
+    // Validate index
+    Object.keys(index).forEach((fileName) => {
+      // Check file name
+      if ((typeof fileName) !== 'string') {
+        validIndex = false;
+        return false;
+      }
+      Object.keys((index[fileName])).forEach((token) => {
+        // check content of file
+        if (!((index[fileName][token]) instanceof Array)) {
+          validIndex = false;
+          return false;
+        } else {
+          (index[fileName][token]).forEach((digit) => {
+            if ((typeof digit) !== 'number') {
+              validIndex = false;
+              return false;
+            }
+          });
+        }
+      });
+    });
+    if (!validIndex) {
+      return { error: 'invalid index' };
+    }
     // Check to see if file name was specified
     if (this.hasFileName(terms)) {
       const fileIndex = {};
@@ -84,6 +109,22 @@ class InvertedIndex {
       });
     }
     return result;
+  }
+  /**
+   * Checks to see if index is in valid format
+   * @return {Boolean} validity of index
+   * @param {index} index The index to be validated
+   */
+  validate(index, valid) {
+    this.index = index;
+    Object.keys(index).forEach((fileName) => {
+      if (!((typeof fileName) === 'string')) {
+        return false;
+      } else if (!(index[fileName] instanceof Object)) {
+        return false;
+      }
+      return true;
+    });
   }
 }
 

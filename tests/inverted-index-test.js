@@ -104,7 +104,9 @@ describe('Read book data', () => {
   });
   describe('Search Index', () => {
     it('ensures passed in index is in valid format', (done) => {
+      console.log('BEFOREBEFOREBEFOREBEFORE');
       const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
+      console.log('HERERERERERERERE');
       expect(expectation)
         .toEqual({ error: 'invalid index' });
       done();

@@ -50,7 +50,8 @@ module.exports.sampleValidIndex = sampleValidIndex;
 
 // A sample invalid index
 const invalidIndex = {
-  'book1.json': { a: 'random obj' }
+  'book1.json': { a: 'ABRACA DABRA' },
+  'book2.json': { aboby: 'WASSUP YOU' }
 };
 module.exports.invalidIndex = invalidIndex;
 
@@ -58,14 +59,11 @@ module.exports.invalidIndex = invalidIndex;
 const searchTerm = 'into';  // A sample search term
 module.exports.searchTerm = searchTerm;
 
-// A sample search query object submitted to the api/search route
-const singleTermSearch = {
-  index: sampleValidIndex,
-  terms: searchTerm
-};
-module.exports.singleTermSearch = singleTermSearch;
-
-const singleTermResult = { into: [0, 1] };  // The expected result from the search
+const singleTermResult = {
+  'book1.json': {
+    into: [0, 1]
+  }
+};  // The expected result from the search
 module.exports.singleTermResult = singleTermResult;
 
 /** Searching for an array of terms */
@@ -74,8 +72,10 @@ module.exports.searchTermArray = searchTermArray;
 
 // Expected result from the search
 const arrayOfTermsResult = {
-  an: [0],
-  into: [0, 1]
+  'book1.json': {
+    an: [0],
+    into: [0, 1]
+  }
 };
 module.exports.arrayOfTermsResult = arrayOfTermsResult;
 
@@ -105,25 +105,26 @@ const multipleIndices = {
 module.exports.multipleIndices = multipleIndices;
 
 // Expected result
-const multipleIndicesResult = [
-  { into: [0, 1] },
-  { into: [0] }
-];
+const multipleIndicesResult = {
+  'book1.json': { into: [0, 1] },
+  'book2.json': { into: [0] }
+};
 module.exports.multipleIndicesResult = multipleIndicesResult;
 
 // Sample search query object for multiple term search of multiple indices
 // Expected result
-const multipleIndicesMultipleTermsResult = [
-  { an: [0], into: [0, 1] },
-  { an: [0, 1], into: [0] }
-];
+const multipleIndicesMultipleTermsResult = {
+  'book1.json': { an: [0], into: [0, 1] },
+  'book2.json': { an: [0, 1], into: [0] }
+};
 module.exports.multipleIndicesMultipleTermsResult = multipleIndicesMultipleTermsResult;
 
 /** Handling a varied number of search terms */
-
 const variedTermsResult = {
-  an: [0],
-  inquiry: [0],
-  into: [0, 1]
+  'book1.json': {
+    an: [0],
+    inquiry: [0],
+    into: [0, 1]
+  }
 };
 module.exports.variedTermsResult = variedTermsResult;
