@@ -24,7 +24,13 @@ gulp.task('run-tests', () => {
     .pipe(jasmineNode());
 });
 
-
+gulp.task('tester', () => {
+      gulp.src('tests/inverted-index-test.js')
+      .pipe(babel())
+      .pipe(injectModules())
+      .pipe(jasmineNode())
+      .pipe(gulpBabelIstanbul.writeReports());
+});
 gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])
     .pipe(gulpBabelIstanbul())

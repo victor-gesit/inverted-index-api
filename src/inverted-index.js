@@ -17,11 +17,15 @@ class InvertedIndex {
     items.forEach((element) => {
       if (Array.isArray(element)) {
         this.getTokens(element, flattened);
+      } else if (element.indexOf(' ') >= 0) { // Check for words with spaces
+        const reflatten = element.split(/\s+/);
+        this.getTokens(reflatten, flattened);
       } else {
         flattened.push(element);
       }
     });
   }
+
 
   /**
    * This method checks if the first term in the array is a file name
@@ -88,6 +92,9 @@ class InvertedIndex {
       const fileIndex = {};
       const fileName = terms[0];
       const indexForFile = index[fileName];
+      if (indexForFile === undefined) {
+        return { error: 'no index created for that book' };
+      }
       const searchTerms = terms.slice(1, terms.length);
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {

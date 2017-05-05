@@ -20,7 +20,7 @@ module.exports = {
       try {
         JSON.parse(data);
       } catch (except) {
-        errorObject.msg = { error: 'malformed json' };
+        errorObject.msg = { error: 'invalid json in file content' };
         return callback(errorObject, null);
       }
       // Check for incorrect document structure
@@ -32,7 +32,7 @@ module.exports = {
           const hasTitleField = Object.prototype.hasOwnProperty.call(book, 'title');
           const hasTextField = Object.prototype.hasOwnProperty.call(book, 'text');
           if (!hasTwoFields || !hasTitleField || !hasTextField) {
-            errorObject.msg = { error: 'document structured incorrectly' };
+            errorObject.msg = { error: 'no title or text field in one or more books' };
             valid = false;
           }
         });
@@ -44,7 +44,7 @@ module.exports = {
         const hasTitleField = Object.prototype.hasOwnProperty.call(parsed, 'title');
         const hasTextField = Object.prototype.hasOwnProperty.call(parsed, 'text');
         if (!hasTwoFields || !hasTitleField || !hasTextField) {
-          errorObject.msg = { error: 'document structured incorectly' };
+          errorObject.msg = { error: 'no title or text field in book' };
           return callback(errorObject, null);
         }
       }

@@ -15,7 +15,17 @@ router.post('/', (req, res) => {
   const index = req.body.index,
     terms = req.body.terms,
     fileName = req.body.fileName;
-  const indexObject = JSON.parse(index);
+  let indexObject = {};
+  // Validate index
+  try {
+    indexObject = JSON.parse(index);
+  } catch (err) {
+    return res.send({ error: 'invalid index' });
+  }
+  // Check that terms to search are specified
+  if (terms === undefined) {
+    return res.send({ error: 'no terms specified' });
+  }
   async.series([
     (callback) => {
       if (fileName === undefined || fileName.length === 0) {

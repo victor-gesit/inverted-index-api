@@ -39,13 +39,13 @@ const
   fileNamedResult = searchFixture.fileNamedResult,
   singleBookResult = searchFixture.singleBookResult;
 
-describe('Read book data', () => {
-  describe('Read book data', () => {
-    it('ensures proper response when file is malformed', (done) => {
+describe('Application Tests', () => {
+  describe('Read book data tests', () => {
+    it('ensures proper response when file has invalid json in content', (done) => {
       request
        .post('/api/create')
-       .attach('file', 'fixtures/malformed.json')
-       .expect({ error: 'malformed json' })
+       .attach('file', 'fixtures/invalid-json-content.json')
+       .expect({ error: 'invalid json in file content' })
        .end((err) => {
          if (err) {
            return done(err);
@@ -53,11 +53,11 @@ describe('Read book data', () => {
          done();
        });
     });
-    it('it give proper response for file with bad content, though valid json', (done) => {
+    it('gives proper response for file with bad content, though valid json', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/incorrectly-structured.json')
-        .expect({ error: 'document structured incorectly' })
+        .attach('file', 'fixtures/no-title-or-text-field.json')
+        .expect({ error: 'no title or text field in book' })
         .end((err) => {
           if (err) {
             return done(err);
@@ -65,11 +65,11 @@ describe('Read book data', () => {
           done();
         });
     });
-    it('it gives proper response for file with bad content, though valid json array', (done) => {
+    it('gives proper response for file with bad content, though valid json array', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/incorrectly-structured-2.json')
-        .expect({ error: 'document structured incorrectly' })
+        .attach('file', 'fixtures/no-title-or-text-field-2.json')
+        .expect({ error: 'no title or text field in one or more books' })
         .end((err) => {
           if (err) {
             return done(err);
@@ -77,7 +77,7 @@ describe('Read book data', () => {
           done();
         });
     });
-    it('ensures proper response when file is invalid', (done) => {
+    it('ensures proper response when file type is invalid, e.g. image files', (done) => {
       request
        .post('/api/create')
        .attach('file', 'fixtures/invalid-file-type.txt')
@@ -102,7 +102,7 @@ describe('Read book data', () => {
        });
     });
   });
-  describe('Populate Index', () => {
+  describe('Populate Index test', () => {
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
@@ -127,7 +127,7 @@ describe('Read book data', () => {
         done();
       });
     });
-    it('ensures index is correct', (done) => {
+    it('ensures index created is correct', (done) => {
       request
         .post('/api/create')
         .attach('file', 'fixtures/valid-file.json')
@@ -140,8 +140,8 @@ describe('Read book data', () => {
        });
     });
   });
-  describe('Search Index', () => {
-    it('ensures passed in index is in valid format', (done) => {
+  describe('Search Index test', () => {
+    it('ensures passed-in index is in valid format', (done) => {
       const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
       expect(expectation)
         .toEqual({ error: 'invalid index' });
@@ -171,13 +171,13 @@ describe('Read book data', () => {
         .toEqual(fileNamedResult);
       done();
     });
-    it('ensures goes through all indexed files if a filename/key is not passed', (done) => {
+    it('ensures searchIndex through all indexed files if a filename/key is not passed', (done) => {
       const expectation = invertedIndex.searchIndex(multipleIndices, searchTerm);
       expect(expectation)
         .toEqual(multipleIndicesResult);
       done();
     });
-    it('can search multiple indices for an array of search terms', (done) => {
+    it('ensures searchIndex can search multiple indices for an array of search terms', (done) => {
       const expectation = invertedIndex.searchIndex(multipleIndices, searchTermArray);
       expect(expectation)
         .toEqual(multipleIndicesMultipleTermsResult);
