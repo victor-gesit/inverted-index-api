@@ -11,6 +11,10 @@ const InvertedIndex = require('../src/inverted-index');
 const invertedIndex = new InvertedIndex();
 
 router.post('/', upload.single('file'), (req, res) => {
+  // Check that file was uploaded
+  if (req.file === undefined) {
+    return res.send({ error: 'no file uploaded' });
+  }
   const originalFileName = req.file.originalname;
   const filePath = req.file.path;
 

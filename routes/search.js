@@ -26,6 +26,10 @@ router.post('/', (req, res) => {
   if (terms === undefined) {
     return res.send({ error: 'no terms specified' });
   }
+  // Check that fileName has json extension
+  if ((fileName.split('.').pop().toUpperCase() !== 'JSON')) {
+    return res.send({ error: 'specify correct file name and extension' });
+  }
   async.series([
     (callback) => {
       if (fileName === undefined || fileName.length === 0) {
