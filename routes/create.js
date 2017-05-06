@@ -27,7 +27,7 @@ router.post('/', upload.array('files'), (req, res) => {
     const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
     if (fileExtension !== 'JSON') {
       count += 1;
-      fs.unlink(filePath);  // Delete temporary file
+      // fs.unlink(filePath);  // Delete temporary file
       indices[originalFileName] = { error: 'invalid file type' };
       // Check to see if this is the last file
       if (count === files.length) {

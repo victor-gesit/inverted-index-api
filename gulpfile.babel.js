@@ -6,6 +6,7 @@ import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
 import env from 'gulp-env';
+import exit from 'gulp-exit';
 
 require('dotenv').config();
 
@@ -23,7 +24,8 @@ gulp.task('run-tests', () => {
   gulp.src('tests/inverted-index-test.js')
     .pipe(babel())
     .pipe(injectModules())
-    .pipe(jasmineNode());
+    .pipe(jasmineNode())
+    .pipe(exit());
 });
 // Gulp coverage implicitly depends on run-tests.
 gulp.task('coverage', () => {
@@ -40,6 +42,7 @@ gulp.task('coverage', () => {
       .on('end', () => {
         gulp.src('coverage/lcov.info')
         .pipe(gulpCoveralls());
-      });
+      })
+      .pipe(exit());
     });
 });
