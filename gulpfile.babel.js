@@ -25,7 +25,7 @@ gulp.task('run-tests', () => {
     .pipe(injectModules())
     .pipe(jasmineNode());
 });
-
+// Gulp coverage implicitly depends on run-tests.
 gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])
     .pipe(gulpBabelIstanbul())

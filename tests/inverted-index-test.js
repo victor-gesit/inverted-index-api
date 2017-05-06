@@ -39,7 +39,9 @@ const
   multipleIndicesMultipleTermsResult = searchFixture.multipleIndicesMultipleTermsResult,
   variedTermsResult = searchFixture.variedTermsResult,
   fileNamedResult = searchFixture.fileNamedResult,
-  singleBookResult = searchFixture.singleBookResult;
+  singleBookResult = searchFixture.singleBookResult,
+  searchWithFileName = searchFixture.searchWithFileName,
+  searchWithoutFileName = searchFixture.searchWithoutFileName;
 
 describe('Application Tests', () => {
   describe('Read book data tests', () => {
@@ -95,6 +97,18 @@ describe('Application Tests', () => {
          done();
        });
     });
+    it('ensures proper response when no file is uploaded', (done) => {
+      request
+        .post('/api/create')
+        .attach()
+        .expect({ error: 'no file uploaded' })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
     it('ensures proper response when file is empty', (done) => {
       request
         .post('/api/create')
@@ -147,7 +161,7 @@ describe('Application Tests', () => {
        });
     });
   });
-  describe('Search Index test', () => {
+  describe('searchIndex method test', () => {
     it('ensures passed-in index is in valid format', (done) => {
       const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
       expect(expectation)
@@ -189,6 +203,32 @@ describe('Application Tests', () => {
       expect(expectation)
         .toEqual(multipleIndicesMultipleTermsResult);
       done();
+    });
+  });
+  describe('api/search route test', () => {
+    it('ensures proper result when file name is specified', (done) => {
+      request
+        .post('/api/search')
+        .send(searchWithFileName)
+        .expect(expectedResult)
+       .end((err) => {
+         if (err) {
+           return done(err);
+         }
+         done();
+       });
+    });
+    it('ensures proper result when file name is not specified', (done) => {
+      request
+        .post('/api/search')
+        .send(searchWithoutFileName)
+        .expect(expectedResult)
+       .end((err) => {
+         if (err) {
+           return done(err);
+         }
+         done();
+       });
     });
   });
 });

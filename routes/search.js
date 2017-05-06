@@ -5,7 +5,7 @@ import InvertedIndex from '../src/inverted-index';
 
 const router = express.Router();
 
-// Middle wares
+// Middlewares
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 

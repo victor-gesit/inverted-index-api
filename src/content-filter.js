@@ -29,7 +29,7 @@ function removeDuplicatesAndSort(tokens) {
  * @param {Object} book to be filtered
  */
 function filterBook(book) {
-  const allWords = `${book.title} ${book.text}`;
+  const allWords = `${book.title} ${book.text}`; // index words in title and text fields
   const splitwords = splitandNormalize(allWords);
   const noDuplicates = removeDuplicatesAndSort(splitwords);
   const sortedBook = {};
@@ -39,7 +39,7 @@ function filterBook(book) {
 }
 
 /**
- *
+ * This method filters content of book and returns an easy to index object
  * @param {JSON} data the data supplied from file or req.body
  * @param {function} callback the callback, whose argument is the returned filtered data
  * @return {null} returns nothing
@@ -62,7 +62,7 @@ module.exports.contentFilter = (data, callback) => {
   }
   // Remove duplicates and sort wordList
   wordList = removeDuplicatesAndSort(wordList);
-  // Add an entry into the allBooks array that contains all words in the collectfion
+  // Add an entry into the allBooks array that contains all words in the collection
   allWords.wordList = wordList;
   allBooks.push(allWords);
   callback(allBooks);

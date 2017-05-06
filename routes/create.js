@@ -15,7 +15,7 @@ router.post('/', upload.array('files'), (req, res) => {
   const indices = {};
   const files = req.files;
   // Check that files were uploaded
-  if (files.length === 0) {
+  if (files === undefined || files.length === 0) {
     return res.send({ error: 'no file uploaded' });
   }
   let count = 0;  // Keep count of number of indexed files
@@ -27,7 +27,7 @@ router.post('/', upload.array('files'), (req, res) => {
     const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
     if (fileExtension !== 'JSON') {
       count += 1;
-      // fs.unlink(filePath);  // Delete temporary file
+      fs.unlink(filePath);  // Delete temporary file
       indices[originalFileName] = { error: 'invalid file type' };
       // Check to see if this is the last file
       if (count === files.length) {
@@ -44,7 +44,7 @@ router.post('/', upload.array('files'), (req, res) => {
         if (count === files.length) {
           return res.send(indices);
         }
-        return; // Continue execution
+        return; // Continue looping through books
       }
       let index = {};
       count += 1;

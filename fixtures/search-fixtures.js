@@ -140,3 +140,35 @@ const fileNamedResult = {
   }
 };
 module.exports.fileNamedResult = fileNamedResult;
+
+/** Test parameters for search route, using supertest */
+
+// Searching with a file name
+const searchWithFileName = {
+  index: {
+
+  },
+  fileName: {
+
+  },
+  terms: {
+
+  }
+};
+module.exports.searchWithFileName = searchWithFileName;
+
+const searchWithFileNameResult = {
+
+};
+module.exports.searchWithFileNameResult = searchWithFileNameResult;
+
+// Searching without a file name
+const searchWithoutFileName = {
+  index: {
+
+  },
+  terms: {
+
+  }
+};
+module.exports.searchWithoutFileName = searchWithoutFileName;

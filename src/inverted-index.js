@@ -71,10 +71,9 @@ class InvertedIndex {
     }
   }
   /**
-   * @return {Array} find
-   * @param {*} index
-   * @param {*} fileName
-   * @param {*} terms
+   * @return {Array} returns the indices of the terms
+   * @param {JSON} index the index to be searched
+   * @param {*} terms the terms to search for
    */
   searchIndex(index, ...terms) {
     const result = {};
