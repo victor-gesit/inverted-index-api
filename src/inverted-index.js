@@ -1,3 +1,4 @@
+import async from 'async';
 import filter from './content-filter';
 import makeAnIndex from './make-index';
 
@@ -47,11 +48,26 @@ class InvertedIndex {
    * @param {string} fileContent The content of the file
    * @param {function} done A callback, whose argument is the returned index
    */
-  createIndex(fileName, fileContent, done) {
+  createIndex(fileName, fileContent) {
     this.index = {};
+    let indexed = false;
     filter.contentFilter(fileContent, (filteredDocument) => {
-      makeIndex(fileName, filteredDocument, index => done(index));
+      async.series([
+        (callback) => {
+          makeIndex(fileName, filteredDocument, (index) => {
+            this.index[fileName] = index[fileName];
+            callback(null);
+            // return this.index;
+          });
+        },
+        (callback) => {
+          indexed = true;
+        }
+      ]);
     });
+    if (indexed) {
+      return this.index;
+    }
   }
   /**
    * @return {Array} find

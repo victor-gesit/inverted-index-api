@@ -5,10 +5,12 @@ import babel from 'gulp-babel';
 import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
+import env from 'gulp-env';
 
 require('dotenv').config();
 
 gulp.task('serve', () => {
+  env.set({ 'proces.env.NODE_ENV': 'PROD' });
   const server = gls.new('index.js');
   server.start();
 
@@ -24,13 +26,6 @@ gulp.task('run-tests', () => {
     .pipe(jasmineNode());
 });
 
-gulp.task('tester', () => {
-      gulp.src('tests/inverted-index-test.js')
-      .pipe(babel())
-      .pipe(injectModules())
-      .pipe(jasmineNode())
-      .pipe(gulpBabelIstanbul.writeReports());
-});
 gulp.task('coverage', () => {
   gulp.src(['src/*.js', 'routes/*.js'])
     .pipe(gulpBabelIstanbul())
