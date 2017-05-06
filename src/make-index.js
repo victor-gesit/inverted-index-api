@@ -4,7 +4,7 @@ module.exports = {
     const wordList = allWords.wordList;
     const index = {};
     const titles = {};
-    const indices = {};
+    const indexOfFile = {};
     wordList.forEach((word) => {
       const wordArray = [];
       for (let i = 0; i < filteredDocument.length - 1; i += 1) {
@@ -16,9 +16,9 @@ module.exports = {
         }
       }
       index[word] = wordArray;
-      indices[fileName] = index;
-      indices.titles = titles;
+      indexOfFile.index = index;
+      indexOfFile.titles = titles;
     });
-    return done(indices);
+    return done(indexOfFile);
   }
 };

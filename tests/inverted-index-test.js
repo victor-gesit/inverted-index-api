@@ -9,18 +9,20 @@ const invertedIndex = new InvertedIndex();
 // Expected test result for search route when valid file is supplied
 const expectedResult = {
   'valid-file.json': {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  },
-  titles: {
-    0: 'An inquiry into',
-    1: 'Into the'
+    index: {
+      an: [0],
+      into: [0, 1],
+      inquiry: [0],
+      is: [0, 1],
+      string: [0],
+      the: [1],
+      this: [0],
+      used: [1]
+    },
+    titles: {
+      0: 'An inquiry into',
+      1: 'Into the'
+    }
   }
 };
 
@@ -44,8 +46,9 @@ describe('Application Tests', () => {
     it('ensures proper response when file has invalid json in content', (done) => {
       request
        .post('/api/create')
-       .attach('file', 'fixtures/invalid-json-content.json')
-       .expect({ error: 'invalid json in file content' })
+       .attach('files', 'fixtures/invalid-json-content.json')
+       .expect({ 'invalid-json-content.json':
+         { error: 'invalid json in file content' } })
        .end((err) => {
          if (err) {
            return done(err);
@@ -56,8 +59,9 @@ describe('Application Tests', () => {
     it('gives proper response for file with bad content, though valid json', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/no-title-or-text-field.json')
-        .expect({ error: 'no title or text field in book' })
+        .attach('files', 'fixtures/no-title-or-text-field.json')
+        .expect({ 'no-title-or-text-field.json':
+          { error: 'no title or text field in book' } })
         .end((err) => {
           if (err) {
             return done(err);
@@ -68,8 +72,9 @@ describe('Application Tests', () => {
     it('gives proper response for file with bad content, though valid json array', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/no-title-or-text-field-2.json')
-        .expect({ error: 'no title or text field in one or more books' })
+        .attach('files', 'fixtures/no-title-or-text-field-2.json')
+        .expect({ 'no-title-or-text-field-2.json':
+        { error: 'no title or text field in one or more books' } })
         .end((err) => {
           if (err) {
             return done(err);
@@ -80,8 +85,9 @@ describe('Application Tests', () => {
     it('ensures proper response when file type is invalid, e.g. image files', (done) => {
       request
        .post('/api/create')
-       .attach('file', 'fixtures/invalid-file-type.txt')
-       .expect({ error: 'invalid file type' })
+       .attach('files', 'fixtures/invalid-file-type.txt')
+       .expect({ 'invalid-file-type.txt':
+        { error: 'invalid file type' } })
        .end((err) => {
          if (err) {
            return done(err);
@@ -92,8 +98,9 @@ describe('Application Tests', () => {
     it('ensures proper response when file is empty', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/empty-file.json')
-        .expect({ error: 'empty file' })
+        .attach('files', 'fixtures/empty-file.json')
+        .expect({ 'empty-file.json':
+          { error: 'empty file' } })
        .end((err) => {
          if (err) {
            return done(err);
@@ -106,7 +113,7 @@ describe('Application Tests', () => {
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/valid-file.json')
+        .attach('files', 'fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {
@@ -118,7 +125,7 @@ describe('Application Tests', () => {
     it('ensures index gives response for files with a single book', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/single-book.json')
+        .attach('files', 'fixtures/single-book.json')
         .expect(singleBookResult)
       .end((err) => {
         if (err) {
@@ -130,7 +137,7 @@ describe('Application Tests', () => {
     it('ensures index created is correct', (done) => {
       request
         .post('/api/create')
-        .attach('file', 'fixtures/valid-file.json')
+        .attach('files', 'fixtures/valid-file.json')
         .expect(expectedResult)
        .end((err) => {
          if (err) {

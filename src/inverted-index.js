@@ -50,17 +50,18 @@ class InvertedIndex {
    */
   createIndex(fileName, fileContent) {
     this.index = {};
-    let indexed = false;
+    let indexed = false; // Keep track of indexing operation
     filter.contentFilter(fileContent, (filteredDocument) => {
       async.series([
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
-            this.index[fileName] = index[fileName];
+            // this.index[fileName] = index[fileName];
+            this.index[fileName] = index;
             callback(null);
             // return this.index;
           });
         },
-        (callback) => {
+        () => {
           indexed = true;
         }
       ]);

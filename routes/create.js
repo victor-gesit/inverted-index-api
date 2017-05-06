@@ -15,7 +15,7 @@ router.post('/', upload.array('files'), (req, res) => {
   const indices = {};
   const files = req.files;
   // Check that files were uploaded
-  if (files === undefined) {
+  if (files.length === 0) {
     return res.send({ error: 'no file uploaded' });
   }
   let count = 0;  // Keep count of number of indexed files
@@ -27,16 +27,24 @@ router.post('/', upload.array('files'), (req, res) => {
     const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
     if (fileExtension !== 'JSON') {
       count += 1;
-      fs.unlink(filePath);  // Delete temporary file
+      // fs.unlink(filePath);  // Delete temporary file
       indices[originalFileName] = { error: 'invalid file type' };
-      return;// res.send({ error: 'invalid file type' });
+      // Check to see if this is the last file
+      if (count === files.length) {
+        return res.send(indices);
+      }
+      return;
     }
     // Read file from temporary storage
     fileHandler.getContent(filePath, (err, content) => {
       if (err) {
         count += 1;
         indices[originalFileName] = err.msg;
-        return; // res.send(err.msg);
+        // Check to see if this is the last file
+        if (count === files.length) {
+          return res.send(indices);
+        }
+        return; // Continue execution
       }
       let index = {};
       count += 1;
@@ -45,7 +53,7 @@ router.post('/', upload.array('files'), (req, res) => {
           index = invertedIndex.createIndex(originalFileName, content);
           callback(null);
         },
-        (callback) => {
+        () => {
           indices[originalFileName] = index[originalFileName];
           // Check to see if last file is indexed
           if (count === files.length) {

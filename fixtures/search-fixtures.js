@@ -1,13 +1,15 @@
 // Test parameters for api/create route
 const singleBookResult = {
   'single-book.json': {
-    eze: [0],
-    goes: [0],
-    was: [0],
-    such: [0]
-  },
-  titles: {
-    0: 'Eze goes'
+    index: {
+      eze: [0],
+      goes: [0],
+      was: [0],
+      such: [0]
+    },
+    titles: {
+      0: 'Eze goes'
+    }
   }
 };
 module.exports.singleBookResult = singleBookResult;
