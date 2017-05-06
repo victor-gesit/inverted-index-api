@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp coverage",
-    "start": "set NODE_ENV=PROD&& gulp serve"
+    "start": "gulp serve"
   },
   "repository": {
     "type": "git",
