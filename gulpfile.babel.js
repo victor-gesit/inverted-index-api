@@ -1,25 +1,27 @@
 import gulp from 'gulp';
 import jasmineNode from 'gulp-jasmine-node';
-import gls from 'gulp-live-server';
+import gulpLiveServer from 'gulp-live-server';
 import babel from 'gulp-babel';
 import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
 import env from 'gulp-env';
 import exit from 'gulp-exit';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+dotenv.config();
 
+// This task starts the server
 gulp.task('serve', () => {
   env.set({ 'proces.env.NODE_ENV': 'PROD' });
-  const server = gls.new('index.js');
+  const server = gulpLiveServer.new('index.js');
   server.start();
 
   gulp.watch(['routes/*.js', 'src/*.js', 'app.js'], () => {
     server.start.bind(server)();
   });
 });
-
+// This task runs jasmine tests and outputs the result to the cli.
 gulp.task('run-tests', () => {
   gulp.src('tests/inverted-index-test.js')
     .pipe(babel())

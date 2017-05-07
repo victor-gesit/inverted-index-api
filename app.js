@@ -1,9 +1,10 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import create from './routes/create';
 import search from './routes/search';
 
 const app = express();
-require('dotenv').config();
+dotenv.config();
 
 // Set port
 switch (process.env.NODE_ENV) {
