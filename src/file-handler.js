@@ -6,7 +6,7 @@ import fs from 'fs';
  */
 
 
-module.exports = {
+export default {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
       fs.unlink(filePath);  // Delete  file after reading to save space

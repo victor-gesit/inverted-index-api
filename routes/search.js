@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
     try {
       indexObject = JSON.parse(index);
     } catch (err) {
+      console.log('here 0');
       return res.send({ error: 'invalid index' });
     }
   } else {
@@ -49,4 +50,4 @@ router.post('/', (req, res) => {
   ]);
 });
 
-module.exports = router;
+export default router;

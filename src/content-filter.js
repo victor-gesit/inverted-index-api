@@ -44,7 +44,7 @@ function filterBook(book) {
  * @param {function} callback the callback, whose argument is the returned filtered data
  * @return {null} returns nothing
  */
-module.exports.contentFilter = (data, callback) => {
+export default function contentFilter(data, callback) {
   const allBooks = [];  // An array that will hold all the books, after they're sorted
   const allWords = {};  // An object that holds the wordList, a list of all words in the collection
   let wordList = [];  // This goes into the allWords object, with a key wordList
@@ -66,4 +66,4 @@ module.exports.contentFilter = (data, callback) => {
   allWords.wordList = wordList;
   allBooks.push(allWords);
   callback(allBooks);
-};
+}

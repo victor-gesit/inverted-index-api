@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   makeIndex(fileName, filteredDocument, done) {
     const allWords = filteredDocument[filteredDocument.length - 1];
     const wordList = allWords.wordList;

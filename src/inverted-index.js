@@ -1,5 +1,5 @@
 import async from 'async';
-import filter from './content-filter';
+import contentFilter from './content-filter';
 import makeAnIndex from './make-index';
 
 const makeIndex = makeAnIndex.makeIndex;
@@ -17,7 +17,7 @@ class InvertedIndex {
   createIndex(fileName, fileContent) {
     this.index = {};
     let indexed = false; // Keep track of indexing operation
-    filter.contentFilter(fileContent, (filteredDocument) => {
+    contentFilter(fileContent, (filteredDocument) => {
       async.series([
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
@@ -47,7 +47,11 @@ class InvertedIndex {
     let validIndex = true;
     // Validate index
     Object.keys(index).forEach((fileName) => {
-      if ((index[fileName].index === null || index[fileName].index === undefined)) {
+      // Check for files with error
+      if (Object.keys(index[fileName][0] === 'error')) {
+        return; // This file had an error during index creation
+      }
+      if ((index[fileName].index === undefined || index[fileName].index === null)) {
         validIndex = false;
         return;
       }
@@ -91,6 +95,10 @@ class InvertedIndex {
       // Loop through index object for all files
       Object.keys(index).forEach((fileName) => {
         const fileIndex = {};
+        // Skip files with error
+        if (Object.keys(index[fileName])[0] === 'error') {
+          return; // Continue to next file
+        }
         const indexForFile = index[fileName].index;
         const searchTerms = terms;
         this.getTokens(searchTerms, tokens);

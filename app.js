@@ -27,4 +27,4 @@ app.listen(port, () => {
   console.log(`listening at port ${port}`);
 });
 
-module.exports = app; // Make app available to the test suite;
+export default app; // Make app available to the test suite;
