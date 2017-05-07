@@ -9,40 +9,6 @@ const makeIndex = makeAnIndex.makeIndex;
  */
 class InvertedIndex {
   /**
-   * This method flattens embedded arrays into a single array
-   * @param {Array} items An array to be flattened
-   * @param {*} flattened The flattened array, filled by closure
-   * @returns {null} returns null
-   */
-  getTokens(items, flattened) {
-    items.forEach((element) => {
-      if (Array.isArray(element)) {
-        this.getTokens(element, flattened);
-      } else if (element.indexOf(' ') >= 0) { // Check for words with spaces
-        const reflatten = element.split(/\s+/);
-        this.getTokens(reflatten, flattened);
-      } else {
-        flattened.push(element);
-      }
-    });
-  }
-
-
-  /**
-   * This method checks if the first term in the array is a file name
-   * @returns {boolean} returns a boolean to indicate if it has file name
-   * @param {Array} args an array whose content is to be checked
-   */
-  hasFileName(args) {
-    const flattenedArguments = [];
-    this.getTokens(args, flattenedArguments);
-    const possibleFileName = flattenedArguments[0];
-    const fileExtension = possibleFileName.split('.').pop();
-    if (fileExtension.toUpperCase() === 'JSON') {
-      return true;
-    }
-  }
-  /**
    * @return {Object} index of supplied document
    * @param {string} fileName The name of the file whose index is to be created
    * @param {string} fileContent The content of the file
@@ -84,14 +50,23 @@ class InvertedIndex {
       // Check file name
       if ((typeof fileName) !== 'string') {
         validIndex = false;
-        return false;
+        return;
       }
-      Object.keys((index[fileName])).forEach((token) => {
+      // Check content of index
+      if ((index[fileName] === null || index[fileName] === undefined)) {
+        validIndex = false;
+        return;
+      }
+      if ((index[fileName].index === null || index[fileName].index === undefined)) {
+        validIndex = false;
+        return;
+      }
+      Object.keys((index[fileName].index)).forEach((token) => {
         // check content of file
-        if (!((index[fileName][token]) instanceof Array)) {
+        if (!((index[fileName].index[token]) instanceof Array)) {
           validIndex = false;
         } else {
-          (index[fileName][token]).forEach((digit) => {
+          (index[fileName].index[token]).forEach((digit) => {
             if ((typeof digit) !== 'number') {
               validIndex = false;
               return false;
@@ -107,7 +82,7 @@ class InvertedIndex {
     if (this.hasFileName(terms)) {
       const fileIndex = {};
       const fileName = terms[0];
-      const indexForFile = index[fileName];
+      const indexForFile = index[fileName].index;
       if (indexForFile === undefined) {
         return { error: 'no index created for that book' };
       }
@@ -121,7 +96,7 @@ class InvertedIndex {
       // Loop through index object for all files
       Object.keys(index).forEach((fileName) => {
         const fileIndex = {};
-        const indexForFile = index[fileName];
+        const indexForFile = index[fileName].index;
         const searchTerms = terms;
         this.getTokens(searchTerms, tokens);
         tokens.forEach((token) => {
@@ -131,6 +106,39 @@ class InvertedIndex {
       });
     }
     return result;
+  }
+    /**
+   * This method flattens embedded arrays into a single array
+   * @param {Array} items An array to be flattened
+   * @param {*} flattened The flattened array, filled by closure
+   * @returns {null} returns null
+   */
+  getTokens(items, flattened) {
+    items.forEach((element) => {
+      if (Array.isArray(element)) {
+        this.getTokens(element, flattened);
+      } else if (element.indexOf(' ') >= 0) { // Check for words with spaces
+        const reflatten = element.split(/\s+/);
+        this.getTokens(reflatten, flattened);
+      } else {
+        flattened.push(element);
+      }
+    });
+  }
+
+  /**
+   * This method checks if the first term in the array is a file name
+   * @returns {boolean} returns a boolean to indicate if it has file name
+   * @param {Array} args an array whose content is to be checked
+   */
+  hasFileName(args) {
+    const flattenedArguments = [];
+    this.getTokens(args, flattenedArguments);
+    const possibleFileName = flattenedArguments[0];
+    const fileExtension = possibleFileName.split('.').pop();
+    if (fileExtension.toUpperCase() === 'JSON') {
+      return true;
+    }
   }
 }
 

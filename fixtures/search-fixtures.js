@@ -39,7 +39,7 @@ module.exports.badJSON = badJSON;
 
 // A sample valid index submitted by the search query
 const sampleValidIndex = {
-  'book1.json': {
+  'book1.json': { index: {
     an: [0],
     into: [0, 1],
     inquiry: [0],
@@ -48,6 +48,7 @@ const sampleValidIndex = {
     the: [1],
     this: [0],
     used: [1]
+  }
   }
 };
 module.exports.sampleValidIndex = sampleValidIndex;
@@ -85,7 +86,7 @@ module.exports.arrayOfTermsResult = arrayOfTermsResult;
 
 /** Searching multiple indices ('All' option) */
 const multipleIndices = {
-  'book1.json': {
+  'book1.json': { index: {
     an: [0],
     into: [0, 1],
     inquiry: [0],
@@ -94,8 +95,9 @@ const multipleIndices = {
     the: [1],
     this: [0],
     used: [1]
+  }
   },
-  'book2.json': {
+  'book2.json': { index: {
     an: [0, 1],
     boy: [0, 1],
     into: [0],
@@ -104,6 +106,7 @@ const multipleIndices = {
     table: [1],
     train: [0],
     user: [1]
+  }
   }
 };
 module.exports.multipleIndices = multipleIndices;
@@ -115,7 +118,6 @@ const multipleIndicesResult = {
 };
 module.exports.multipleIndicesResult = multipleIndicesResult;
 
-// Sample search query object for multiple term search of multiple indices
 // Expected result
 const multipleIndicesMultipleTermsResult = {
   'book1.json': { an: [0], into: [0, 1] },
@@ -146,29 +148,80 @@ module.exports.fileNamedResult = fileNamedResult;
 // Searching with a file name
 const searchWithFileName = {
   index: {
-
+    'book1.json': { index: {
+      an: [0],
+      into: [0, 1],
+      inquiry: [0],
+      is: [0, 1],
+      string: [0],
+      the: [1],
+      this: [0],
+      used: [1]
+    }
+    },
+    'book2.json': { index: {
+      an: [0, 1],
+      boy: [0, 1],
+      into: [0],
+      lost: [0, 1],
+      mango: [0],
+      table: [1],
+      train: [0],
+      user: [1]
+    }
+    }
   },
-  fileName: {
-
-  },
-  terms: {
-
-  }
+  fileName: 'book1.json',
+  terms: ['an', 'is']
 };
 module.exports.searchWithFileName = searchWithFileName;
 
 const searchWithFileNameResult = {
-
+  'book1.json': {
+    an: [0],
+    is: [0, 1]
+  }
 };
 module.exports.searchWithFileNameResult = searchWithFileNameResult;
 
 // Searching without a file name
 const searchWithoutFileName = {
   index: {
-
+    'book1.json': { index: {
+      an: [0],
+      into: [0, 1],
+      inquiry: [0],
+      is: [0, 1],
+      string: [0],
+      the: [1],
+      this: [0],
+      used: [1]
+    }
+    },
+    'book2.json': { index: {
+      an: [0, 1],
+      boy: [0, 1],
+      into: [0],
+      lost: [0, 1],
+      mango: [0],
+      table: [1],
+      train: [0],
+      user: [1]
+    }
+    }
   },
-  terms: {
-
-  }
+  terms: ['an', 'into']
 };
 module.exports.searchWithoutFileName = searchWithoutFileName;
+
+const searchWithoutFileNameResult = {
+  'book1.json': {
+    an: [0],
+    into: [0, 1]
+  },
+  'book2.json': {
+    an: [0, 1],
+    into: [0]
+  }
+};
+module.exports.searchWithoutFileNameResult = searchWithoutFileNameResult;

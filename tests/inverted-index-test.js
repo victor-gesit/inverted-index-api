@@ -41,7 +41,9 @@ const
   fileNamedResult = searchFixture.fileNamedResult,
   singleBookResult = searchFixture.singleBookResult,
   searchWithFileName = searchFixture.searchWithFileName,
-  searchWithoutFileName = searchFixture.searchWithoutFileName;
+  searchWithoutFileName = searchFixture.searchWithoutFileName,
+  searchWithFileNameResult = searchFixture.searchWithFileNameResult,
+  searchWithoutFileNameResult = searchFixture.searchWithoutFileNameResult;
 
 describe('Application Tests', () => {
   describe('Read book data tests', () => {
@@ -181,7 +183,7 @@ describe('Application Tests', () => {
       done();
     });
     it('ensures searchIndex can handle a varied number of search terms as arguments', (done) => {
-      const expectation = invertedIndex.searchIndex(validIndex, 'into', ['an', 'inquiry']);
+      const expectation = invertedIndex.searchIndex(validIndex, 'into ', ['an', 'inquiry']);
       expect(expectation)
         .toEqual(variedTermsResult);
       done();
@@ -210,7 +212,7 @@ describe('Application Tests', () => {
       request
         .post('/api/search')
         .send(searchWithFileName)
-        .expect(expectedResult)
+        .expect(searchWithFileNameResult)
        .end((err) => {
          if (err) {
            return done(err);
@@ -222,7 +224,7 @@ describe('Application Tests', () => {
       request
         .post('/api/search')
         .send(searchWithoutFileName)
-        .expect(expectedResult)
+        .expect(searchWithoutFileNameResult)
        .end((err) => {
          if (err) {
            return done(err);

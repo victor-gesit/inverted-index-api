@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61.54% </span>
+        <span class="strong">82.14% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/26</span>
+        <span class='fraction'>23/28</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">71.43% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/10</span>
+        <span class='fraction'>10/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/3</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61.54% </span>
+        <span class="strong">82.14% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>16/26</span>
+        <span class='fraction'>23/28</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -91,7 +91,11 @@
 46
 47
 48
-49</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+49
+50
+51
+52
+53</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -111,29 +115,33 @@
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,30 +166,34 @@ router.post('/', (req, res) =&gt; {
     fileName = req.body.fileName;
   let indexObject = {};
   // Validate index
-  try {
-    indexObject = JSON.parse(index);
-  } catch (err) {
-    return res.send({ error: 'invalid index' });
+  if (<span class="missing-if-branch" title="if path not taken" >I</span>typeof <span class="branch-0 cbranch-no" title="branch not covered" >i</span>ndex !== 'object') {
+    try <span class="cstat-no" title="statement not covered" >{</span>
+      indexObject = <span class="cstat-no" title="statement not covered" >JSON.parse(index);</span>
+    } catch (err) {
+      return <span class="cstat-no" title="statement not covered" >res.send({ error: 'invalid index' });</span>
+    }
+  } else {
+    indexObject = index;
   }
   // Check that terms to search are specified
-  if (<span class="cstat-no" title="statement not covered" >terms === undefined) {</span>
+  if (<span class="missing-if-branch" title="if path not taken" >I</span>terms === undefined) {
     return <span class="cstat-no" title="statement not covered" >res.send({ error: 'no terms specified' });</span>
   }
   // Check that fileName has json extension
-  if (<span class="cstat-no" title="statement not covered" >fileName !== undefined &amp;&amp; (fileName.split('.').pop().toUpperCase() !== 'JSON')) {</span>
+  if (<span class="missing-if-branch" title="if path not taken" >I</span>fileName !== undefined &amp;&amp; (fileName.split('.').pop().toUpperCase() !== 'JSON')) {
     return <span class="cstat-no" title="statement not covered" >res.send({ error: 'specify correct file name and extension' });</span>
   }
-  async.<span class="cstat-no" title="statement not covered" >series([</span>
-<span class="fstat-no" title="function not covered" >    (callback) =&gt; {</span>
-      if (<span class="cstat-no" title="statement not covered" >fileName === undefined || fileName.length === 0) {</span>
-        searchResults = <span class="cstat-no" title="statement not covered" >invertedIndex.searchIndex(indexObject, terms);</span>
+  async.series([
+    (callback) =&gt; {
+      if (fileName === undefined || fileName.length === 0) {
+        searchResults = invertedIndex.searchIndex(indexObject, terms);
       } else {
-        searchResults = <span class="cstat-no" title="statement not covered" >invertedIndex.searchIndex(indexObject, fileName, terms);</span>
+        searchResults = invertedIndex.searchIndex(indexObject, fileName, terms);
       }
-      callback(<span class="cstat-no" title="statement not covered" >null);</span>
+      callback(null);
     },
-<span class="fstat-no" title="function not covered" >    () =&gt; {</span>
-      res.<span class="cstat-no" title="statement not covered" >send(searchResults);</span>
+    () =&gt; {
+      res.send(searchResults);
     }
   ]);
 });
@@ -193,7 +205,7 @@ module.exports = router;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat May 06 2017 22:06:06 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 07 2017 01:06:00 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

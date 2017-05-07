@@ -17,10 +17,14 @@ router.post('/', (req, res) => {
     fileName = req.body.fileName;
   let indexObject = {};
   // Validate index
-  try {
-    indexObject = JSON.parse(index);
-  } catch (err) {
-    return res.send({ error: 'invalid index' });
+  if (typeof index !== 'object') {
+    try {
+      indexObject = JSON.parse(index);
+    } catch (err) {
+      return res.send({ error: 'invalid index' });
+    }
+  } else {
+    indexObject = index;
   }
   // Check that terms to search are specified
   if (terms === undefined) {
