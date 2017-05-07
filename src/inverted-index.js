@@ -48,30 +48,31 @@ class InvertedIndex {
     // Validate index
     Object.keys(index).forEach((fileName) => {
       // Check for files with error
-      if (Object.keys(index[fileName][0] === 'error')) {
+      if (Object.keys(index[fileName])[0] === 'error') {
         return; // This file had an error during index creation
       }
-      if ((index[fileName].index === undefined || index[fileName].index === null)) {
+      // Check for files without index key
+      if (Object.keys(index[fileName])[0] !== 'index') {
         validIndex = false;
-        return;
+      } else {
+        Object.keys((index[fileName].index)).forEach((token) => {
+          // check content of token indices
+          if (!((index[fileName].index[token]) instanceof Array)) {
+            validIndex = false;
+          } else {
+            (index[fileName].index[token]).forEach((digit) => {
+              if ((typeof digit) !== 'number') {
+                validIndex = false;
+                return false;
+              }
+            });
+          }
+        });
       }
-      Object.keys((index[fileName].index)).forEach((token) => {
-        // check content of token indices
-        if (!((index[fileName].index[token]) instanceof Array)) {
-          validIndex = false;
-        } else {
-          (index[fileName].index[token]).forEach((digit) => {
-            if ((typeof digit) !== 'number') {
-              validIndex = false;
-              return false;
-            }
-          });
-        }
-      });
     });
     if (!validIndex) {
       return { error: 'invalid index' };
-    }
+    } else
     // Check to see if file name was specified
     if (this.hasFileName(terms)) {
       const fileIndex = {};
@@ -88,7 +89,11 @@ class InvertedIndex {
       const searchTerms = terms.slice(1, terms.length);
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {
-        fileIndex[token] = indexForFile[token];
+        if (indexForFile[token] === undefined) {
+          fileIndex[token] = [];
+        } else {
+          fileIndex[token] = indexForFile[token];
+        }
       });
       result[fileName] = fileIndex;
     } else {
@@ -103,7 +108,11 @@ class InvertedIndex {
         const searchTerms = terms;
         this.getTokens(searchTerms, tokens);
         tokens.forEach((token) => {
-          fileIndex[token] = indexForFile[token];
+          if (indexForFile[token] === undefined) {  // When the term is not in the book
+            fileIndex[token] = [];
+          } else {
+            fileIndex[token] = indexForFile[token];
+          }
         });
         result[fileName] = fileIndex;
       });

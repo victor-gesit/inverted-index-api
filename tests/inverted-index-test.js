@@ -197,7 +197,7 @@ describe('Application Tests', () => {
       done();
     });
     it('ensures searchIndex can handle a varied number of search terms as arguments', (done) => {
-      const expectation = invertedIndex.searchIndex(validIndex, 'into ', ['an', 'inquiry']);
+      const expectation = invertedIndex.searchIndex(validIndex, 'into an', ['an', 'inquiry']);
       expect(expectation)
         .toEqual(variedTermsResult);
       done();
