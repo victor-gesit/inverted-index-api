@@ -47,22 +47,12 @@ class InvertedIndex {
     let validIndex = true;
     // Validate index
     Object.keys(index).forEach((fileName) => {
-      // Check file name
-      if ((typeof fileName) !== 'string') {
-        validIndex = false;
-        return;
-      }
-      // Check content of index
-      if ((index[fileName] === null || index[fileName] === undefined)) {
-        validIndex = false;
-        return;
-      }
       if ((index[fileName].index === null || index[fileName].index === undefined)) {
         validIndex = false;
         return;
       }
       Object.keys((index[fileName].index)).forEach((token) => {
-        // check content of file
+        // check content of token indices
         if (!((index[fileName].index[token]) instanceof Array)) {
           validIndex = false;
         } else {
@@ -82,6 +72,11 @@ class InvertedIndex {
     if (this.hasFileName(terms)) {
       const fileIndex = {};
       const fileName = terms[0];
+      // Check if index exists for file name
+      if (index[fileName] === undefined) {
+        return { error: 'no index created for that book' };
+      }
+      // Check if index has valid content for that file name
       const indexForFile = index[fileName].index;
       if (indexForFile === undefined) {
         return { error: 'no index created for that book' };

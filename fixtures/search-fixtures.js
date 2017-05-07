@@ -53,13 +53,27 @@ const sampleValidIndex = {
 };
 module.exports.sampleValidIndex = sampleValidIndex;
 
-// A sample invalid index
+// Sample invalid indices
 const invalidIndex = {
   'book1.json': { a: 'ABRACA DABRA' },
   'book2.json': { aboby: 'WASSUP YOU' }
 };
 module.exports.invalidIndex = invalidIndex;
 
+
+const invalidIndex2 = {
+  'book1.json': {
+    index: { a: 'ABRACA DABRA' }
+  }
+};
+module.exports.invalidIndex2 = invalidIndex2;
+
+const invalidIndex3 = {
+  'book1.json': {
+    index: { a: ['obi', 'nna'] }
+  }
+};
+module.exports.invalidIndex3 = invalidIndex3;
 /** Searching for a single term */
 const searchTerm = 'into';  // A sample search term
 module.exports.searchTerm = searchTerm;

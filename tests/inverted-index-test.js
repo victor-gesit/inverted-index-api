@@ -32,6 +32,8 @@ const
   searchTermArray = searchFixture.searchTermArray,
   validIndex = searchFixture.sampleValidIndex,
   invalidIndex = searchFixture.invalidIndex,
+  invalidIndex2 = searchFixture.invalidIndex2,
+  invalidIndex3 = searchFixture.invalidIndex3,
   singleTermResult = searchFixture.singleTermResult,
   arrayOfTermsResult = searchFixture.arrayOfTermsResult,
   multipleIndices = searchFixture.multipleIndices,
@@ -170,6 +172,18 @@ describe('Application Tests', () => {
         .toEqual({ error: 'invalid index' });
       done();
     });
+    it('ensures passed-in index has correct content for token indices', (done) => {
+      const expectation = invertedIndex.searchIndex(invalidIndex2, 'into');
+      expect(expectation)
+        .toEqual({ error: 'invalid index' });
+      done();
+    });
+    it('ensures passed-in index has numbers in the token indices', (done) => {
+      const expectation = invertedIndex.searchIndex(invalidIndex3, 'into');
+      expect(expectation)
+        .toEqual({ error: 'invalid index' });
+      done();
+    });
     it('ensures index returns the correct result when searched', (done) => {
       const expectation = invertedIndex.searchIndex(validIndex, 'into');
       expect(expectation)
@@ -192,6 +206,12 @@ describe('Application Tests', () => {
       const expectation = invertedIndex.searchIndex(multipleIndices, 'book1.json', ['an', 'into']);
       expect(expectation)
         .toEqual(fileNamedResult);
+      done();
+    });
+    it('ensures correct response when file name has no created index for it', (done) => {
+      const expectation = invertedIndex.searchIndex(multipleIndices, 'book8.json', ['an', 'into']);
+      expect(expectation)
+        .toEqual({ error: 'no index created for that book' });
       done();
     });
     it('ensures searchIndex through all indexed files if a filename/key is not passed', (done) => {
