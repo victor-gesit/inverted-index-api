@@ -4,13 +4,15 @@ import fs from 'fs';
 import async from 'async';
 import fileHandler from '../src/file-handler';
 import InvertedIndex from '../src/inverted-index';
-
+import validateUpload from '../src/validate-upload';
 const upload = multer({ dest: 'uploads' });
 const router = express.Router();
 const invertedIndex = new InvertedIndex();
 
 router.post('/', upload.array('files'), (req, res) => {
   const indices = {};
+
+/*
   const files = req.files;
   // Check that files were uploaded
   if (files === undefined || files.length === 0) {
@@ -48,6 +50,9 @@ router.post('/', upload.array('files'), (req, res) => {
       count += 1;
       async.series([
         (callback) => {
+          valid = validateUpload(req, )
+        },
+        (callback) => {
           index = invertedIndex.createIndex(originalFileName, content);
           callback(null);
         },
@@ -60,7 +65,22 @@ router.post('/', upload.array('files'), (req, res) => {
         }
       ]);
     });
-  });
+  }); */
+/*
+  async.series([
+    (callback) => {
+      validateUpload(req, (isValid, indices) => {
+        if(isValid) {
+          callback(null, indices);
+        } else {
+          callback('stop', indices);
+        }
+      });
+    }
+  ],
+  (err, result) => {
+    res.send(result[1]);
+  }*/
 });
 
 export default router;

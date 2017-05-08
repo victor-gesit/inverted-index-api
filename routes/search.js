@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
       validateIndex(index, terms, fileName, (isValid, madeObject) => {
         indexObject = madeObject;
         if (isValid) {
-          callback(null, indexObject);
+          callback(null);
         } else {
           return callback('stop', indexObject);  // Stop execution of other functions in the series
         }
@@ -35,11 +35,11 @@ router.post('/', (req, res) => {
       } else {
         searchResults = invertedIndex.searchIndex(indexObject, fileName, terms);
       }
-      callback(null, indexObject);
+      callback(null, searchResults);
     }
   ],
   (err, results) => {
-    res.send(results);
+    res.send(results[1]);
   });
 });
 
