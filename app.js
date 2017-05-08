@@ -24,8 +24,8 @@ app.use('/', (req, res) => {
 });
 
 const port = app.get('PORT');
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`listening at port ${port}`);
 });
 
-export default app; // Make app available to the test suite;
+export default server; // Make app available to the test suite;

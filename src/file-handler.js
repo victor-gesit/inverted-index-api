@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 /**
+ * This function reads the content of the file in the path provided
  * @return {String} The content of the read file.
  * @param {String} filePath The path to the file to be read.
  */

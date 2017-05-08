@@ -26,8 +26,7 @@ gulp.task('run-tests', () => {
   gulp.src('tests/inverted-index-test.js')
     .pipe(babel())
     .pipe(injectModules())
-    .pipe(jasmineNode())
-    .pipe(exit());
+    .pipe(jasmineNode());
 });
 // Gulp coverage implicitly depends on run-tests.
 gulp.task('coverage', () => {
@@ -44,7 +43,6 @@ gulp.task('coverage', () => {
       .on('end', () => {
         gulp.src('coverage/lcov.info')
         .pipe(gulpCoveralls());
-      })
-      .pipe(exit());
+      });
     });
 });

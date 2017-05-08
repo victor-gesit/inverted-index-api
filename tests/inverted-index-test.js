@@ -260,9 +260,10 @@ describe('Application Tests', () => {
         .expect({ error: 'no search terms specified' })
         .end((err) => {
           if (err) {
-            return done();
+            return done(err);
           }
           done();
+          return app.close();
         });
     });
   });

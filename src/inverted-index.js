@@ -125,7 +125,7 @@ class InvertedIndex {
     /**
    * This method flattens embedded arrays into a single array
    * @param {Array} items An array to be flattened
-   * @param {*} filteredTokens The flattened array, filled by closure
+   * @param {*} flattened The flattened array, filled by closure
    * @returns {null} returns null
    */
   getTokens(items, filteredTokens) {
@@ -157,4 +157,4 @@ class InvertedIndex {
   }
 }
 
-export default InvertedIndex;
+module.exports = InvertedIndex;
