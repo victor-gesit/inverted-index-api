@@ -45,7 +45,8 @@ const
   searchWithFileName = searchFixture.searchWithFileName,
   searchWithoutFileName = searchFixture.searchWithoutFileName,
   searchWithFileNameResult = searchFixture.searchWithFileNameResult,
-  searchWithoutFileNameResult = searchFixture.searchWithoutFileNameResult;
+  searchWithoutFileNameResult = searchFixture.searchWithoutFileNameResult,
+  searchWithoutTerms = searchFixture.searchWithoutTerms;
 
 describe('Application Tests', () => {
   describe('Read book data tests', () => {
@@ -208,7 +209,7 @@ describe('Application Tests', () => {
         .toEqual(fileNamedResult);
       done();
     });
-    it('ensures correct response when file name has no created index for it', (done) => {
+    it('ensures correct response when file name has not created index for it', (done) => {
       const expectation = invertedIndex.searchIndex(multipleIndices, 'book8.json', ['an', 'into']);
       expect(expectation)
         .toEqual({ error: 'no index created for that book' });
@@ -251,6 +252,18 @@ describe('Application Tests', () => {
          }
          done();
        });
+    });
+    it('ensures proper response when terms to search are not specified', (done) => {
+      request
+        .post('/api/search')
+        .send(searchWithoutTerms)
+        .expect({ error: 'no search terms specified' })
+        .end((err) => {
+          if (err) {
+            return done();
+          }
+          done();
+        });
     });
   });
 });

@@ -21,7 +21,6 @@ router.post('/', (req, res) => {
     try {
       indexObject = JSON.parse(index);
     } catch (err) {
-      console.log('here 0');
       return res.send({ error: 'invalid index' });
     }
   } else {
@@ -29,7 +28,7 @@ router.post('/', (req, res) => {
   }
   // Check that terms to search are specified
   if (terms === undefined) {
-    return res.send({ error: 'no terms specified' });
+    return res.send({ error: 'no search terms specified' });
   }
   // Check that fileName has json extension
   if (fileName !== undefined && (fileName.split('.').pop().toUpperCase() !== 'JSON')) {

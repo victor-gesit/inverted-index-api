@@ -239,3 +239,19 @@ const searchWithoutFileNameResult = {
   }
 };
 module.exports.searchWithoutFileNameResult = searchWithoutFileNameResult;
+
+const searchWithoutTerms = { index: {
+  'book1.json': { index: {
+    an: [0],
+    into: [0, 1],
+    inquiry: [0],
+    is: [0, 1],
+    string: [0],
+    the: [1],
+    this: [0],
+    used: [1]
+  }
+  }
+}
+};
+module.exports.searchWithoutTerms = searchWithoutTerms;
