@@ -1,4 +1,5 @@
 import async from 'async';
+import fs from 'fs';
 import contentFilter from './content-filter';
 import makeAnIndex from './make-index';
 
@@ -27,6 +28,7 @@ class InvertedIndex {
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
             this.index[fileName] = index;
+            fs.writeFile(`indices/${fileName}`, JSON.stringify(index), () => {}); // Write the index to a file;
             callback(null);
           });
         },

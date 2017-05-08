@@ -1,5 +1,5 @@
 /**
- * This method normalizes a sentence into lower case characters
+ * This fucntion normalizes a sentence into lower case characters
  * and splits th sentence into an array of words
  * @return {Array} an array of words contained in the supplied sentence
  * @param {string} sentence The sentence to be split and normalized
@@ -11,7 +11,7 @@ function splitandNormalize(sentence) {
 }
 
 /**
- * This method removes empty strings from an array, removes duplicates,
+ * This function removes empty strings from an array, removes duplicates,
  * and sorts the content in alphabetical order
  * @return {Array} the sorted array, with duplicates removed
  * @param {Array} tokens an array of tokens to be streamlined and sorted
@@ -42,7 +42,7 @@ function filterBook(book) {
 }
 
 /**
- * This method filters content of book and returns an easy to index object
+ * This function filters content of book and returns an easy to index object
  * @param {JSON} data the data supplied from file or req.body
  * @param {function} callback the callback, whose argument is the returned filtered data
  * @return {null} returns nothing

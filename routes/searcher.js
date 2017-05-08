@@ -4,6 +4,7 @@ import InvertedIndex from '../src/inverted-index';
 
 const invertedIndex = new InvertedIndex();
 const validateIndex = validateAnIndex.validateIndex;
+// This middleware appends the result of the search to the response object
 export default {
   appendResult(req, res, next) {
     let searchResults = {};
@@ -35,7 +36,6 @@ export default {
     (err, results) => {
       res.searchResult = results[1];
       next();
-      // res.send(results[1]);
     });
   }
 };

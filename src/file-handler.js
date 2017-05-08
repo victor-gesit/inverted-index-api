@@ -9,7 +9,7 @@ import fs from 'fs';
 export default {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
-      // fs.unlink(filePath);  // Delete  file after reading to save space
+      fs.unlink(filePath);  // Delete  file after reading to save space
       const errorObject = {};
       // Check for empty file
       if (data.length === 0) {
@@ -48,7 +48,6 @@ export default {
           return callback(errorObject, null);
         }
       }
-
       return callback(null, parsed);
     });
   }
