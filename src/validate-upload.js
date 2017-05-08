@@ -1,3 +1,4 @@
+import fs from 'fs';
 import async from 'async';
 import fileHandler from './file-handler';
 import InvertedIndex from './inverted-index';
@@ -20,12 +21,11 @@ export default {
       const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
       if (fileExtension !== 'JSON') {
         count += 1;
-        // fs.unlink(filePath);  // Delete temporary file
+        fs.unlink(filePath);  // Delete temporary file
         indices[originalFileName] = { error: 'invalid file type' };
         // Check to see if this is the last file
         if (count === files.length) {
           return callback(true, indices);
-          // return res.send(indices);
         }
         return;
       }
@@ -37,7 +37,6 @@ export default {
           // Check to see if this is the last file
           if (count === files.length) {
             return callback(true, indices);
-            // return res.send(indices);
           }
           return; // Continue looping through books
         }
@@ -53,7 +52,6 @@ export default {
             // Check to see if last file is indexed
             if (count === files.length) {
               return callback(true, indices);
-              // return res.send(indices);
             }
           }
         ]);

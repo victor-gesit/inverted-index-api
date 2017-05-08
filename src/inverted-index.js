@@ -1,5 +1,4 @@
 import async from 'async';
-import fs from 'fs';
 import contentFilter from './content-filter';
 import makeAnIndex from './make-index';
 
@@ -28,7 +27,6 @@ class InvertedIndex {
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
             this.index[fileName] = index;
-            fs.writeFile(`indices/${fileName}`, JSON.stringify(index), () => {}); // Write the index to a file;
             callback(null);
           });
         },
@@ -127,7 +125,7 @@ class InvertedIndex {
     /**
    * This method flattens embedded arrays into a single array
    * @param {Array} items An array to be flattened
-   * @param {*} flattened The flattened array, filled by closure
+   * @param {*} filteredTokens The flattened array, filled by closure
    * @returns {null} returns null
    */
   getTokens(items, filteredTokens) {
@@ -159,4 +157,4 @@ class InvertedIndex {
   }
 }
 
-module.exports = InvertedIndex;
+export default InvertedIndex;

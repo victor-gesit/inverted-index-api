@@ -4,3 +4,4 @@ coverage/
 .vscode/
 .coveralls.yml
 uploads/*
+indices/*
