@@ -26,7 +26,7 @@ const expectedResult = {
   }
 };
 
-  /** Test parameters for api/search route */
+  /** Fixtures required to test the search route */
 const
   searchTerm = searchFixture.searchTerm,
   searchTermArray = searchFixture.searchTermArray,

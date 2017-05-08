@@ -1,15 +1,18 @@
 /**
+ * This method normalizes a sentence into lower case characters
+ * and splits th sentence into an array of words
  * @return {Array} an array of words contained in the supplied sentence
  * @param {string} sentence The sentence to be split and normalized
  */
 function splitandNormalize(sentence) {
-  // Normalize sentence
   sentence = sentence.toLowerCase();
   const words = sentence.split(/\W+/);
   return words;
 }
 
 /**
+ * This method removes empty strings from an array, removes duplicates,
+ * and sorts the content in alphabetical order
  * @return {Array} the sorted array, with duplicates removed
  * @param {Array} tokens an array of tokens to be streamlined and sorted
  */

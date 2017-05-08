@@ -2,9 +2,10 @@ import express from 'express';
 import async from 'async';
 import bodyParser from 'body-parser';
 import InvertedIndex from '../src/inverted-index';
+import validateAnIndex from '../src/validate-index';
 
+const validateIndex = validateAnIndex.validateIndex;
 const router = express.Router();
-
 // Middlewares
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -16,37 +17,30 @@ router.post('/', (req, res) => {
     terms = req.body.terms,
     fileName = req.body.fileName;
   let indexObject = {};
-  // Validate index
-  if (typeof index !== 'object') {
-    try {
-      indexObject = JSON.parse(index);
-    } catch (err) {
-      return res.send({ error: 'invalid index' });
-    }
-  } else {
-    indexObject = index;
-  }
-  // Check that terms to search are specified
-  if (terms === undefined) {
-    return res.send({ error: 'no search terms specified' });
-  }
-  // Check that fileName has json extension
-  if (fileName !== undefined && (fileName.split('.').pop().toUpperCase() !== 'JSON')) {
-    return res.send({ error: 'specify correct file name and extension' });
-  }
   async.series([
+    (callback) => {
+      // Validate the index, terms and fileName supplied
+      validateIndex(index, terms, fileName, (isValid, madeObject) => {
+        indexObject = madeObject;
+        if (isValid) {
+          callback(null, indexObject);
+        } else {
+          return callback('stop', indexObject);  // Stop execution of other functions in the series
+        }
+      });
+    },
     (callback) => {
       if (fileName === undefined || fileName.length === 0) {
         searchResults = invertedIndex.searchIndex(indexObject, terms);
       } else {
         searchResults = invertedIndex.searchIndex(indexObject, fileName, terms);
       }
-      callback(null);
-    },
-    () => {
-      res.send(searchResults);
+      callback(null, indexObject);
     }
-  ]);
+  ],
+  (err, results) => {
+    res.send(results);
+  });
 });
 
 export default router;

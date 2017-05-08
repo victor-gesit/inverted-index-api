@@ -9,22 +9,25 @@ const makeIndex = makeAnIndex.makeIndex;
  */
 class InvertedIndex {
   /**
+   * This creates an instance of inverted index, and initializes the index
+   */
+  constructor() {
+    this.index = {};
+  }
+  /**
    * @return {Object} index of supplied document
    * @param {string} fileName The name of the file whose index is to be created
    * @param {string} fileContent The content of the file
    * @param {function} done A callback, whose argument is the returned index
    */
   createIndex(fileName, fileContent) {
-    this.index = {};
     let indexed = false; // Keep track of indexing operation
     contentFilter(fileContent, (filteredDocument) => {
       async.series([
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
-            // this.index[fileName] = index[fileName];
             this.index[fileName] = index;
             callback(null);
-            // return this.index;
           });
         },
         () => {
@@ -125,15 +128,15 @@ class InvertedIndex {
    * @param {*} flattened The flattened array, filled by closure
    * @returns {null} returns null
    */
-  getTokens(items, flattened) {
+  getTokens(items, filteredTokens) {
     items.forEach((element) => {
       if (Array.isArray(element)) {
-        this.getTokens(element, flattened);
+        this.getTokens(element, filteredTokens);
       } else if (element.indexOf(' ') >= 0) { // Check for words with spaces
-        const reflatten = element.split(/\s+/);
-        this.getTokens(reflatten, flattened);
+        const spacesRemoved = element.split(/\s+/);
+        this.getTokens(spacesRemoved, filteredTokens);
       } else {
-        flattened.push(element);
+        filteredTokens.push(element);
       }
     });
   }

@@ -3,12 +3,10 @@ import multer from 'multer';
 import fs from 'fs';
 import async from 'async';
 import fileHandler from '../src/file-handler';
+import InvertedIndex from '../src/inverted-index';
 
 const upload = multer({ dest: 'uploads' });
-
 const router = express.Router();
-const InvertedIndex = require('../src/inverted-index');
-
 const invertedIndex = new InvertedIndex();
 
 router.post('/', upload.array('files'), (req, res) => {
@@ -27,7 +25,7 @@ router.post('/', upload.array('files'), (req, res) => {
     const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
     if (fileExtension !== 'JSON') {
       count += 1;
-      fs.unlink(filePath);  // Delete temporary file
+      // fs.unlink(filePath);  // Delete temporary file
       indices[originalFileName] = { error: 'invalid file type' };
       // Check to see if this is the last file
       if (count === files.length) {
@@ -65,4 +63,4 @@ router.post('/', upload.array('files'), (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;
