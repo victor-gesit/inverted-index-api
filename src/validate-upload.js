@@ -1,4 +1,3 @@
-import fs from 'fs';
 import async from 'async';
 import fileHandler from './file-handler';
 import invertedIndex from './inverted-index';
@@ -20,7 +19,6 @@ export default {
       const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
       if (fileExtension !== 'JSON') {
         count += 1;
-        fs.unlink(filePath);  // Delete temporary file
         indices[originalFileName] = { error: 'invalid file type' };
         // Check to see if this is the last file
         if (count === files.length) {
