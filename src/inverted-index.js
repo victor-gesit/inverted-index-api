@@ -56,7 +56,7 @@ class InvertedIndex {
     if (Object.keys(index).length === 0) {
       return { error: 'no index created yet' };
     }
-    // Check to see if file name was specified
+    // Check if file name is specified
     if (this.hasFileName(terms)) {
       const fileIndex = {};
       const fileName = terms[0];
@@ -64,8 +64,8 @@ class InvertedIndex {
       if (index[fileName] === undefined) {
         return { error: 'no index available for that book' };
       }
-      // Check if index has valid content for that file name
-      const indexForFile = this.index[fileName].index;
+      // Check if index has valid content for file name
+      const indexForFile = index[fileName].index;
       if (indexForFile === undefined) {
         return { error: 'no index created for that book' };
       }
@@ -88,6 +88,9 @@ class InvertedIndex {
           return; // Continue to next file
         }
         const indexForFile = index[fileName].index;
+        if (indexForFile === undefined) {
+          return; // Continue to next file
+        }
         const searchTerms = terms;
         this.getTokens(searchTerms, tokens);
         tokens.forEach((token) => {
@@ -105,7 +108,7 @@ class InvertedIndex {
     /**
    * This method flattens embedded arrays into a single array
    * @param {Array} items An array to be flattened
-   * @param {*} flattened The flattened array, filled by closure
+   * @param {*} filteredTokens The flattened array, filled by closure
    * @returns {null} returns null
    */
   getTokens(items, filteredTokens) {

@@ -3,7 +3,6 @@ import async from 'async';
 import fileHandler from './file-handler';
 import invertedIndex from './inverted-index';
 
-// const invertedIndex = new InvertedIndex();
 export default {
   validateUpload(req, callback) {
     const indices = {};
@@ -49,7 +48,7 @@ export default {
           },
           () => {
             indices[originalFileName] = index;
-            invertedIndex.index[originalFileName] = index; // Add result to global index variable
+            invertedIndex.index[originalFileName] = index; // Add to global index
             // Check to see if last file is indexed
             if (count === files.length) {
               return callback(true, indices);

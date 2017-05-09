@@ -6,7 +6,7 @@ const upload = multer({ dest: 'uploads' });
 const router = express.Router();
 
 router.post('/', upload.array('files'), indexer.appendIndex, (req, res) => {
-  res.send(res.indices);  // indexer middleware appends indices to response object
+  res.send(res.indices);  // Appends indices to middleware
 });
 
 export default router;

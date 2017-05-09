@@ -1,167 +1,99 @@
 // Test parameters for api/create route
-const singleBookResult = {
-  'single-book.json': {
+export default {
+
+  singleBookResult: {
+    'single-book.json': {
+      index: {
+        eze: [0],
+        goes: [0],
+        was: [0],
+        such: [0]
+      },
+      titles: {
+        0: 'Eze goes'
+      }
+    }
+  },
+
+  // expected result for correct input from valid-file.json
+  expectedResult: {
     index: {
-      eze: [0],
-      goes: [0],
-      was: [0],
-      such: [0]
+      an: [0],
+      into: [0, 1],
+      inquiry: [0],
+      is: [0, 1],
+      string: [0],
+      the: [1],
+      this: [0],
+      used: [1]
     },
     titles: {
-      0: 'Eze goes'
+      0: 'An inquiry into',
+      1: 'Into the'
     }
-  }
-};
-module.exports.singleBookResult = singleBookResult;
-
-// expected result for correct input from valid-file.json
-const expectedResult = {
-  index: {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
   },
-  titles: {
-    0: 'An inquiry into',
-    1: 'Into the'
-  }
-};
-module.exports.expectedResult = expectedResult;
+  badJSON: 'abc',
 
-const badJSON = 'abc';
-module.exports.badJSON = badJSON;
-/** Test parameters for api/search route */
-
-// A sample valid index submitted by the search query
-const sampleValidIndex = {
-  'book1.json': { index: {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  }
-  }
-};
-module.exports.sampleValidIndex = sampleValidIndex;
-
-// Sample invalid indices
-const invalidIndex = {
-  'book1.json': { a: 'ABRACA DABRA' },
-  'book2.json': { aboby: 'WASSUP YOU' }
-};
-module.exports.invalidIndex = invalidIndex;
-
-
-const invalidIndex2 = {
-  'book1.json': {
-    index: { a: 'ABRACA DABRA' }
-  }
-};
-module.exports.invalidIndex2 = invalidIndex2;
-
-const invalidIndex3 = {
-  'book1.json': {
-    index: { a: ['obi', 'nna'] }
-  }
-};
-module.exports.invalidIndex3 = invalidIndex3;
-/** Searching for a single term */
-const searchTerm = 'into';  // A sample search term
-module.exports.searchTerm = searchTerm;
-
-const singleTermResult = {
-  'book1.json': {
-    into: [0, 1]
-  }
-};  // The expected result from the search
-module.exports.singleTermResult = singleTermResult;
-
-/** Searching for an array of terms */
-const searchTermArray = ['an', 'into']; // A sample array of search terms
-module.exports.searchTermArray = searchTermArray;
-
-// Expected result from the search
-const arrayOfTermsResult = {
-  'book1.json': {
-    an: [0],
-    into: [0, 1]
-  }
-};
-module.exports.arrayOfTermsResult = arrayOfTermsResult;
-
-/** Searching multiple indices ('All' option) */
-const multipleIndices = {
-  'book1.json': { index: {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  }
+  /** Test parameters for api/search route */
+  // A sample valid index submitted by the search query
+  sampleValidIndex: {
+    'book1.json': { index: {
+      an: [0],
+      into: [0, 1],
+      inquiry: [0],
+      is: [0, 1],
+      string: [0],
+      the: [1],
+      this: [0],
+      used: [1]
+    }
+    }
   },
-  'book2.json': { index: {
-    an: [0, 1],
-    boy: [0, 1],
-    into: [0],
-    lost: [0, 1],
-    mango: [0],
-    table: [1],
-    train: [0],
-    user: [1]
-  }
-  }
-};
-module.exports.multipleIndices = multipleIndices;
 
-// Expected result
-const multipleIndicesResult = {
-  'book1.json': { into: [0, 1] },
-  'book2.json': { into: [0] }
-};
-module.exports.multipleIndicesResult = multipleIndicesResult;
+  // Sample invalid indices
+  invalidIndex: { index: {
+    'bookX.json': { a: 'ABRACA DABRA' },
+    'bookXX.json': { aboby: 'WASSUP YOU' }
+  },
+    terms: ['ABRACA', 'YOU']
+  },
 
-// Expected result
-const multipleIndicesMultipleTermsResult = {
-  'book1.json': { an: [0], into: [0, 1] },
-  'book2.json': { an: [0, 1], into: [0] }
-};
-module.exports.multipleIndicesMultipleTermsResult = multipleIndicesMultipleTermsResult;
+  invalidIndex2: { index: {
+    'bookX.json': {
+      index: { a: 'ABRACA DABRA' }
+    }
+  },
+    terms: ['ABRACA']
+  },
 
-/** Handling a varied number of search terms */
-const variedTermsResult = {
-  'book1.json': {
-    an: [0],
-    inquiry: [0],
-    into: [0, 1]
-  }
-};
-module.exports.variedTermsResult = variedTermsResult;
+  invalidIndex3: { index: {
+    'bookX.json': {
+      index: { a: ['obi', 'nna'] }
+    }
+  },
+    terms: ['obi']
+  },
+  /** Searching for a single term */
+  searchTerm: 'into',  // A sample search term
+  singleTermResult: {
+    'book1.json': {
+      into: [0, 1]
+    }
+  },  // The expected result from the search
 
-const fileNamedResult = {
-  'book1.json': {
-    an: [0],
-    into: [0, 1]
-  }
-};
-module.exports.fileNamedResult = fileNamedResult;
+  /** Searching for an array of terms */
+  searchTermArray: ['an', 'into'], // A sample array of search terms
 
-/** Test parameters for search route, using supertest */
+  // Expected result from the search
+  arrayOfTermsResult: {
+    'book1.json': {
+      an: [0],
+      into: [0, 1]
+    }
+  },
 
-// Searching with a file name
-const searchWithFileName = {
-  index: {
+  /** Searching multiple indices ('All' option) */
+  multipleIndices: {
     'book1.json': { index: {
       an: [0],
       into: [0, 1],
@@ -185,22 +117,115 @@ const searchWithFileName = {
     }
     }
   },
-  fileName: 'book1.json',
-  terms: ['an', 'is']
-};
-module.exports.searchWithFileName = searchWithFileName;
 
-const searchWithFileNameResult = {
-  'book1.json': {
-    an: [0],
-    is: [0, 1]
-  }
-};
-module.exports.searchWithFileNameResult = searchWithFileNameResult;
+  // Expected result
+  multipleIndicesResult: {
+    'book1.json': { into: [0, 1] },
+    'book2.json': { into: [0] }
+  },
 
-// Searching without a file name
-const searchWithoutFileName = {
-  index: {
+  // Expected result
+  multipleIndicesMultipleTermsResult: {
+    'book1.json': { an: [0], into: [0, 1] },
+    'book2.json': { an: [0, 1], into: [0] }
+  },
+
+  /** Handling a varied number of search terms */
+  variedTermsResult: {
+    'book1.json': {
+      an: [0],
+      inquiry: [0],
+      into: [0, 1]
+    }
+  },
+
+  fileNamedResult: {
+    'book1.json': {
+      an: [0],
+      into: [0, 1]
+    }
+  },
+
+  /** Test parameters for search route, using supertest */
+
+  // Searching with a file name
+  searchWithFileName: {
+    index: {
+      'book1.json': { index: {
+        an: [0],
+        into: [0, 1],
+        inquiry: [0],
+        is: [0, 1],
+        string: [0],
+        the: [1],
+        this: [0],
+        used: [1]
+      }
+      },
+      'book2.json': { index: {
+        an: [0, 1],
+        boy: [0, 1],
+        into: [0],
+        lost: [0, 1],
+        mango: [0],
+        table: [1],
+        train: [0],
+        user: [1]
+      }
+      }
+    },
+    fileName: 'book1.json',
+    terms: ['an', 'is']
+  },
+
+  searchWithFileNameResult: {
+    'book1.json': {
+      an: [0],
+      is: [0, 1]
+    }
+  },
+
+  // Searching without a file name
+  searchWithoutFileName: {
+    index: {
+      'book1.json': { index: {
+        an: [0],
+        into: [0, 1],
+        inquiry: [0],
+        is: [0, 1],
+        string: [0],
+        the: [1],
+        this: [0],
+        used: [1]
+      }
+      },
+      'book2.json': { index: {
+        an: [0, 1],
+        boy: [0, 1],
+        into: [0],
+        lost: [0, 1],
+        mango: [0],
+        table: [1],
+        train: [0],
+        user: [1]
+      }
+      }
+    },
+    terms: ['an', 'into']
+  },
+
+  searchWithoutFileNameResult: {
+    'book1.json': {
+      an: [0],
+      into: [0, 1]
+    },
+    'book2.json': {
+      an: [0, 1],
+      into: [0]
+    }
+  },
+
+  searchWithoutTerms: { index: {
     'book1.json': { index: {
       an: [0],
       into: [0, 1],
@@ -211,47 +236,8 @@ const searchWithoutFileName = {
       this: [0],
       used: [1]
     }
-    },
-    'book2.json': { index: {
-      an: [0, 1],
-      boy: [0, 1],
-      into: [0],
-      lost: [0, 1],
-      mango: [0],
-      table: [1],
-      train: [0],
-      user: [1]
     }
-    }
-  },
-  terms: ['an', 'into']
-};
-module.exports.searchWithoutFileName = searchWithoutFileName;
+  }
+  }
 
-const searchWithoutFileNameResult = {
-  'book1.json': {
-    an: [0],
-    into: [0, 1]
-  },
-  'book2.json': {
-    an: [0, 1],
-    into: [0]
-  }
 };
-module.exports.searchWithoutFileNameResult = searchWithoutFileNameResult;
-
-const searchWithoutTerms = { index: {
-  'book1.json': { index: {
-    an: [0],
-    into: [0, 1],
-    inquiry: [0],
-    is: [0, 1],
-    string: [0],
-    the: [1],
-    this: [0],
-    used: [1]
-  }
-  }
-}
-};
-module.exports.searchWithoutTerms = searchWithoutTerms;

@@ -2,7 +2,6 @@ import async from 'async';
 import validateAnIndex from '../src/validate-index';
 import invertedIndex from '../src/inverted-index';
 
-// const invertedIndex = new InvertedIndex();
 const validateIndex = validateAnIndex.validateIndex;
 // This middleware appends the result of the search to the response object
 export default {
@@ -11,11 +10,6 @@ export default {
     const index = req.body.index,
       terms = req.body.terms,
       fileName = req.body.fileName;
-      /*
-    if (index === undefined) {
-      res.searchResult = { error: 'please supply an index' };
-      next();
-    } else */
     if (terms === undefined) {
       res.searchResult = { error: 'no search terms specified' };
       next();
@@ -30,7 +24,7 @@ export default {
               if (isValid) {
                 callback(null);
               } else {
-                return callback('stop', indexObject);  // Stop execution of other functions in the series
+                return callback('stop', indexObject);  // Skip next function
               }
             });
           } else {
@@ -48,7 +42,11 @@ export default {
         }
       ],
       (err, results) => {
-        res.searchResult = results[1];
+        if (err) {
+          res.searchResult = results[0];
+        } else {
+          res.searchResult = results[1];
+        }
         next();
       });
     }

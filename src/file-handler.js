@@ -10,7 +10,7 @@ import fs from 'fs';
 export default {
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
-      fs.unlink(filePath);  // Delete  file after reading to save space
+      fs.unlink(filePath);  // Delete temporary file
       const errorObject = {};
       // Check for empty file
       if (data.length === 0) {
@@ -27,6 +27,10 @@ export default {
       // Check for incorrect document structure
       const parsed = JSON.parse(data);
       if (parsed instanceof Array) {
+        if (parsed.length === 0) {
+          errorObject.msg = { error: 'empty json array in file' };
+          return callback(errorObject, null);
+        }
         let valid = true;
         parsed.forEach((book) => {
           const hasTwoFields = Object.keys(book).length === 2;

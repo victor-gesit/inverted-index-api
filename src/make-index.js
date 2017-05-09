@@ -1,3 +1,4 @@
+// Implements index creation algorithm
 export default {
   makeIndex(fileName, filteredDocument, done) {
     const allWords = filteredDocument[filteredDocument.length - 1];

@@ -48,10 +48,10 @@ function filterBook(book) {
  * @return {null} returns nothing
  */
 export default function contentFilter(data, callback) {
-  const allBooks = [];  // An array that will hold all the books, after they're sorted
-  const allWords = {};  // An object that holds the wordList, a list of all words in the collection
-  let wordList = [];  // This goes into the allWords object, with a key wordList
-  // Check to see if it's a single book, or books in an array
+  const allBooks = [];  // Holds sorted words
+  const allWords = {};  // Holds all words in collection
+  let wordList = [];  // value of wordList key
+  // JSON object or JSON array?
   if (data instanceof Object && data instanceof Array) {
     data.forEach((book) => {
       const filteredBook = filterBook(book);
@@ -65,7 +65,7 @@ export default function contentFilter(data, callback) {
   }
   // Remove duplicates and sort wordList
   wordList = removeDuplicatesAndSort(wordList);
-  // Add an entry into the allBooks array that contains all words in the collection
+  // Add entry that contains all words in collection
   allWords.wordList = wordList;
   allBooks.push(allWords);
   callback(allBooks);

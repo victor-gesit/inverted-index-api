@@ -1,70 +1,75 @@
+import async from 'async';
 /**
- * @return {boolean} stating whether supplied index is valid or not
+ * @return {undefined} This method returns nothing
  * This method checks to see if a supplied index is valid
  * @param {Object} index index object to be validated
+ * @param {function} done callback function, takes in boolean
  */
-function validateIndex(index) {
+function validateAnIndex(index, done) {
   let validIndex = true;
     // Validate index
-  Object.keys(index).forEach((fileName) => {
-    // Check for files with error
-    if (Object.keys(index[fileName])[0] === 'error') {
-      return; // This file had an error during index creation
-    }
-    // Check for files without index key
-    if (Object.keys(index[fileName])[0] !== 'index') {
-      validIndex = false;
-    } else {
-      Object.keys((index[fileName].index)).forEach((token) => {
-        // check content of token indices
-        if (!((index[fileName].index[token]) instanceof Array)) {
+  async.series([
+    (callback) => {
+      Object.keys(index).forEach((fileName) => {
+        // Check for files with error
+        if (Object.keys(index[fileName])[0] === 'error') {
+          return; // This file had an error during index creation
+        }
+        // Check for files without index key
+        if (Object.keys(index[fileName])[0] !== 'index') {
           validIndex = false;
         } else {
-          (index[fileName].index[token]).forEach((digit) => {
-            if ((typeof digit) !== 'number') {
+          Object.keys((index[fileName].index)).forEach((token) => {
+            // check content of token indices
+            if (!((index[fileName].index[token]) instanceof Array)) {
               validIndex = false;
+            } else {
+              (index[fileName].index[token]).forEach((digit) => {
+                if ((typeof digit) !== 'number') {
+                  validIndex = false;
+                }
+              });
             }
           });
         }
       });
-    }
-  });
-  return validIndex;
+      callback(null);
+    },
+    () => done(validIndex)
+  ]);
 }
 
 
 export default {
   validateIndex(index, terms, fileName, callback) {
-    let indexIsValid = false;
     let indexObject = {};
     if (index === undefined) {
       indexObject = undefined;
+    }
+    // Check that terms to search are specified
+    if (terms === undefined) {
+      return callback(false, { error: 'no search terms specified' });
+    }
+    // Check that fileName has json extension
+    if (fileName !== undefined && (fileName.split('.').pop().toUpperCase() !== 'JSON')) {
+      return callback(false, { error: 'specify correct file name and extension' });
     }
     // Handle various query types
     if (typeof index !== 'object' && index !== undefined) {
       try {
         indexObject = JSON.parse(index);
-        indexIsValid = validateIndex(indexObject);
       } catch (err) {
-        callback(false, { error: 'invalid index supplied' });
+        return callback(false, { error: 'invalid index supplied' });
       }
     } else if (index !== undefined) {
-      indexIsValid = validateIndex(index);
       indexObject = index;
-    } else
-    if (!indexIsValid) {
-      callback(false, { error: 'invalid index supplied' });
-    } else
-    // Check that terms to search are specified
-    if (terms === undefined) {
-      callback(false, { error: 'no search terms specified' });
-    } else
-    // Check that fileName has json extension
-    if (fileName !== undefined && (fileName.split('.').pop().toUpperCase() !== 'JSON')) {
-      callback(false, { error: 'specify correct file name and extension' });
-    } else {
-      callback(true, indexObject);
     }
-    callback(true, indexObject);
+    validateAnIndex(indexObject, (isValid) => {
+      if (!isValid) {
+        return callback(false, { error: 'invalid index supplied' });
+      } else {
+        return callback(true, indexObject);
+      }
+    });
   }
 };

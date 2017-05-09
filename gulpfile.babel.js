@@ -6,7 +6,6 @@ import injectModules from 'gulp-inject-modules';
 import gulpBabelIstanbul from 'gulp-babel-istanbul';
 import gulpCoveralls from 'gulp-coveralls';
 import env from 'gulp-env';
-import exit from 'gulp-exit';
 import dotenv from 'dotenv';
 
 dotenv.config();

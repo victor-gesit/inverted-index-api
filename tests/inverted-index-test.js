@@ -4,8 +4,6 @@ import searchFixture from '../fixtures/search-fixtures';
 import invertedIndex from '../src/inverted-index';
 
 const request = supertest(app);
-// const invertedIndex = new InvertedIndex();
-
 // Expected test result for search route when valid file is supplied
 const expectedResult = {
   'valid-file.json': {
@@ -25,28 +23,6 @@ const expectedResult = {
     }
   }
 };
-
-  /** Fixtures required to test the search route */
-const
-  searchTerm = searchFixture.searchTerm,
-  searchTermArray = searchFixture.searchTermArray,
-  validIndex = searchFixture.sampleValidIndex,
-  invalidIndex = searchFixture.invalidIndex,
-  invalidIndex2 = searchFixture.invalidIndex2,
-  invalidIndex3 = searchFixture.invalidIndex3,
-  singleTermResult = searchFixture.singleTermResult,
-  arrayOfTermsResult = searchFixture.arrayOfTermsResult,
-  multipleIndices = searchFixture.multipleIndices,
-  multipleIndicesResult = searchFixture.multipleIndicesResult,
-  multipleIndicesMultipleTermsResult = searchFixture.multipleIndicesMultipleTermsResult,
-  variedTermsResult = searchFixture.variedTermsResult,
-  fileNamedResult = searchFixture.fileNamedResult,
-  singleBookResult = searchFixture.singleBookResult,
-  searchWithFileName = searchFixture.searchWithFileName,
-  searchWithoutFileName = searchFixture.searchWithoutFileName,
-  searchWithFileNameResult = searchFixture.searchWithFileNameResult,
-  searchWithoutFileNameResult = searchFixture.searchWithoutFileNameResult,
-  searchWithoutTerms = searchFixture.searchWithoutTerms;
 
 describe('Application Tests', () => {
   describe('Read book data tests', () => {
@@ -127,6 +103,19 @@ describe('Application Tests', () => {
          done();
        });
     });
+    it('ensures proper respone when JSON array is empty', (done) => {
+      request
+        .post('/api/create')
+        .attach('files', 'fixtures/empty-json-array.json')
+        .expect({ 'empty-json-array.json':
+          { error: 'empty json array in file' } })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
   });
   describe('Populate Index test', () => {
     it('ensures index is created once JSON file is read', (done) => {
@@ -145,7 +134,7 @@ describe('Application Tests', () => {
       request
         .post('/api/create')
         .attach('files', 'fixtures/single-book.json')
-        .expect(singleBookResult)
+        .expect(searchFixture.singleBookResult)
       .end((err) => {
         if (err) {
           return done(err);
@@ -167,64 +156,52 @@ describe('Application Tests', () => {
     });
   });
   describe('searchIndex method test', () => {
-    it('ensures passed-in index is in valid format', (done) => {
-      const expectation = invertedIndex.searchIndex(invalidIndex, 'into');
-      expect(expectation)
-        .toEqual({ error: 'invalid index' });
-      done();
-    });
-    it('ensures passed-in index has correct content for token indices', (done) => {
-      const expectation = invertedIndex.searchIndex(invalidIndex2, 'into');
-      expect(expectation)
-        .toEqual({ error: 'invalid index' });
-      done();
-    });
-    it('ensures passed-in index has numbers in the token indices', (done) => {
-      const expectation = invertedIndex.searchIndex(invalidIndex3, 'into');
-      expect(expectation)
-        .toEqual({ error: 'invalid index' });
-      done();
-    });
     it('ensures index returns the correct result when searched', (done) => {
-      const expectation = invertedIndex.searchIndex(validIndex, 'into');
+      const expectation = invertedIndex.searchIndex(searchFixture.sampleValidIndex, 'into');
       expect(expectation)
-        .toEqual(singleTermResult);
+        .toEqual(searchFixture.singleTermResult);
       done();
     });
     it('ensures searchIndex can handle an array of search items', (done) => {
-      const expectation = invertedIndex.searchIndex(validIndex, searchTermArray);
+      const expectation = invertedIndex.searchIndex(searchFixture.sampleValidIndex,
+        searchFixture.searchTermArray);
       expect(expectation)
-        .toEqual(arrayOfTermsResult);
+        .toEqual(searchFixture.arrayOfTermsResult);
       done();
     });
     it('ensures searchIndex can handle a varied number of search terms as arguments', (done) => {
-      const expectation = invertedIndex.searchIndex(validIndex, 'into an', ['an', 'inquiry']);
+      const expectation = invertedIndex.searchIndex(searchFixture.sampleValidIndex,
+        'into an', ['an', 'inquiry']);
       expect(expectation)
-        .toEqual(variedTermsResult);
+        .toEqual(searchFixture.variedTermsResult);
       done();
     });
     it('ensures searchIndex returns specific index when file name is specified', (done) => {
-      const expectation = invertedIndex.searchIndex(multipleIndices, 'book1.json', ['an', 'into']);
+      const expectation = invertedIndex.searchIndex(searchFixture.multipleIndices,
+        'book1.json', ['an', 'into']);
       expect(expectation)
-        .toEqual(fileNamedResult);
+        .toEqual(searchFixture.fileNamedResult);
       done();
     });
-    it('ensures correct response when file name has not created index for it', (done) => {
-      const expectation = invertedIndex.searchIndex(multipleIndices, 'book8.json', ['an', 'into']);
+    it('ensures correct response when file name has no created index for it', (done) => {
+      const expectation = invertedIndex.searchIndex(searchFixture.multipleIndices,
+        'book8.json', ['an', 'into']);
       expect(expectation)
-        .toEqual({ error: 'no index created for that book' });
+        .toEqual({ error: 'no index available for that book' });
       done();
     });
     it('ensures searchIndex through all indexed files if a filename/key is not passed', (done) => {
-      const expectation = invertedIndex.searchIndex(multipleIndices, searchTerm);
+      const expectation = invertedIndex.searchIndex(searchFixture.multipleIndices,
+        searchFixture.searchTerm);
       expect(expectation)
-        .toEqual(multipleIndicesResult);
+        .toEqual(searchFixture.multipleIndicesResult);
       done();
     });
     it('ensures searchIndex can search multiple indices for an array of search terms', (done) => {
-      const expectation = invertedIndex.searchIndex(multipleIndices, searchTermArray);
+      const expectation = invertedIndex.searchIndex(searchFixture.multipleIndices,
+        searchFixture.searchTermArray);
       expect(expectation)
-        .toEqual(multipleIndicesMultipleTermsResult);
+        .toEqual(searchFixture.multipleIndicesMultipleTermsResult);
       done();
     });
   });
@@ -232,8 +209,8 @@ describe('Application Tests', () => {
     it('ensures proper result when file name is specified', (done) => {
       request
         .post('/api/search')
-        .send(searchWithFileName)
-        .expect(searchWithFileNameResult)
+        .send(searchFixture.searchWithFileName)
+        .expect(searchFixture.searchWithFileNameResult)
        .end((err) => {
          if (err) {
            return done(err);
@@ -244,8 +221,8 @@ describe('Application Tests', () => {
     it('ensures proper result when file name is not specified', (done) => {
       request
         .post('/api/search')
-        .send(searchWithoutFileName)
-        .expect(searchWithoutFileNameResult)
+        .send(searchFixture.searchWithoutFileName)
+        .expect(searchFixture.searchWithoutFileNameResult)
        .end((err) => {
          if (err) {
            return done(err);
@@ -256,7 +233,7 @@ describe('Application Tests', () => {
     it('ensures proper response when terms to search are not specified', (done) => {
       request
         .post('/api/search')
-        .send(searchWithoutTerms)
+        .send(searchFixture.searchWithoutTerms)
         .expect({ error: 'no search terms specified' })
         .end((err) => {
           if (err) {
@@ -265,6 +242,42 @@ describe('Application Tests', () => {
           done();
           return app.close();
         });
+    });
+    it('ensures passed in index is in valid format', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.invalidIndex)
+        .expect({ error: 'invalid index supplied' })
+      .end((err) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+    });
+    it('ensures passed-in index has correct content for token indices', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.invalidIndex2)
+        .expect({ error: 'invalid index supplied' })
+      .end((err) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
+    });
+    it('ensures passed-in index has numbers in the token indices', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.invalidIndex3)
+        .expect({ error: 'invalid index supplied' })
+      .end((err) => {
+        if (err) {
+          return done(err);
+        }
+        done();
+      });
     });
   });
 });
