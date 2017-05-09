@@ -22,10 +22,12 @@ class InvertedIndex {
    */
   createIndex(fileName, fileContent) {
     let indexed = false; // Keep track of indexing operation
+    let indexOfThisFile = {};
     contentFilter(fileContent, (filteredDocument) => {
       async.series([
         (callback) => {
           makeIndex(fileName, filteredDocument, (index) => {
+            indexOfThisFile = index;
             this.index[fileName] = index;
             callback(null);
           });
@@ -36,7 +38,8 @@ class InvertedIndex {
       ]);
     });
     if (indexed) {
-      return this.index;
+      return indexOfThisFile;
+      // return this.index;
     }
   }
   /**
@@ -47,45 +50,22 @@ class InvertedIndex {
   searchIndex(index, ...terms) {
     const result = {};
     const tokens = [];
-    let validIndex = true;
-    // Validate index
-    Object.keys(index).forEach((fileName) => {
-      // Check for files with error
-      if (Object.keys(index[fileName])[0] === 'error') {
-        return; // This file had an error during index creation
-      }
-      // Check for files without index key
-      if (Object.keys(index[fileName])[0] !== 'index') {
-        validIndex = false;
-      } else {
-        Object.keys((index[fileName].index)).forEach((token) => {
-          // check content of token indices
-          if (!((index[fileName].index[token]) instanceof Array)) {
-            validIndex = false;
-          } else {
-            (index[fileName].index[token]).forEach((digit) => {
-              if ((typeof digit) !== 'number') {
-                validIndex = false;
-                return false;
-              }
-            });
-          }
-        });
-      }
-    });
-    if (!validIndex) {
-      return { error: 'invalid index' };
-    } else
+    if (index === undefined) {
+      index = this.index;
+    }
+    if (Object.keys(index).length === 0) {
+      return { error: 'no index created yet' };
+    }
     // Check to see if file name was specified
     if (this.hasFileName(terms)) {
       const fileIndex = {};
       const fileName = terms[0];
       // Check if index exists for file name
       if (index[fileName] === undefined) {
-        return { error: 'no index created for that book' };
+        return { error: 'no index available for that book' };
       }
       // Check if index has valid content for that file name
-      const indexForFile = index[fileName].index;
+      const indexForFile = this.index[fileName].index;
       if (indexForFile === undefined) {
         return { error: 'no index created for that book' };
       }
@@ -93,7 +73,7 @@ class InvertedIndex {
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {
         if (indexForFile[token] === undefined) {
-          fileIndex[token] = [];
+          fileIndex[token] = [];  // Add empty array if token is absent
         } else {
           fileIndex[token] = indexForFile[token];
         }
@@ -155,6 +135,7 @@ class InvertedIndex {
       return true;
     }
   }
+
 }
 
-module.exports = InvertedIndex;
+export default new InvertedIndex();

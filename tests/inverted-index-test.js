@@ -1,10 +1,10 @@
 import supertest from 'supertest';
 import app from '../app';
 import searchFixture from '../fixtures/search-fixtures';
-import InvertedIndex from '../src/inverted-index';
+import invertedIndex from '../src/inverted-index';
 
 const request = supertest(app);
-const invertedIndex = new InvertedIndex();
+// const invertedIndex = new InvertedIndex();
 
 // Expected test result for search route when valid file is supplied
 const expectedResult = {
