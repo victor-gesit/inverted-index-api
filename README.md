@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/victor4l/inverted-index-api.svg?branch=sever-side)](https://travis-ci.org/victor4l/inverted-index-api)
+[![Build Status](https://travis-ci.org/victor4l/inverted-index-api.svg?branch=master)](https://travis-ci.org/victor4l/inverted-index-api)
 [![Coverage Status](https://coveralls.io/repos/github/victor4l/inverted-index-api/badge.svg?branch=server-side)](https://coveralls.io/github/victor4l/inverted-index-api?branch=server-side)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce450d93fff943a09bc429b694b3dfbf)](https://www.codacy.com/app/victor4l/inverted-index-api?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=victor4l/inverted-index-api&amp;utm_campaign=Badge_Grade)
 # inVidex
