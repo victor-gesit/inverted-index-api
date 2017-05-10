@@ -1,7 +1,8 @@
 import async from 'async';
+
 /**
- * @return {undefined} This method returns nothing
  * This method checks to see if a supplied index is valid
+ * @return {undefined} This method returns nothing
  * @param {Object} index index object to be validated
  * @param {function} done callback function, takes in boolean
  */

@@ -14,7 +14,7 @@ class InvertedIndex {
   constructor() {
     this.index = {};
   }
-  /**
+  /** Makes and inverted index from file content provided
    * @return {Object} index of supplied document
    * @param {string} fileName The name of the file whose index is to be created
    * @param {string} fileContent The content of the file
@@ -43,6 +43,8 @@ class InvertedIndex {
     }
   }
   /**
+   * Searches the supplied index for the indices of
+   * the specified terms
    * @return {Array} returns the indices of the terms
    * @param {JSON} index the index to be searched
    * @param {*} terms the terms to search for

@@ -2,7 +2,14 @@ import async from 'async';
 import fileHandler from './file-handler';
 import invertedIndex from './inverted-index';
 
+
 export default {
+  /**
+   * This method validates the content of the request object
+   * @param {Object} req the http request object
+   * @param {Function} callback a callback that passes the validity
+   * @return {undefined} returns nothing
+   */
   validateUpload(req, callback) {
     const indices = {};
     const files = req.files;

@@ -8,6 +8,12 @@ import fs from 'fs';
 
 
 export default {
+  /**
+   * This reads the content of a file and validates it
+   * @param {String} filePath file path of file to be validated
+   * @param {Function} callback callback that takes in the file content
+   * @return {undefined} returns nothing
+   */
   getContent(filePath, callback) {
     fs.readFile(filePath, 'utf8', (err, data) => {
       const errorObject = {};

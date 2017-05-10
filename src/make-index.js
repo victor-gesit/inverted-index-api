@@ -1,5 +1,12 @@
 // Implements index creation algorithm
 export default {
+  /**
+   * This implements the index creatin algorithm
+   * @param {String} fileName name of file
+   * @param {Object} filteredDocument A preformatted document
+   * @param {Function} done callback that passes the created index
+   * @return {undefined} returns nothing
+   */
   makeIndex(fileName, filteredDocument, done) {
     const allWords = filteredDocument[filteredDocument.length - 1];
     const wordList = allWords.wordList;
