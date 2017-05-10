@@ -21,7 +21,7 @@ class InvertedIndex {
    * @param {function} done A callback, whose argument is the returned index
    */
   createIndex(fileName, fileContent) {
-    let indexed = false; // Keep track of indexing operation
+    let indexed = false;
     let indexOfThisFile = {};
     contentFilter(fileContent, (filteredDocument) => {
       async.series([
@@ -39,7 +39,6 @@ class InvertedIndex {
     });
     if (indexed) {
       return indexOfThisFile;
-      // return this.index;
     }
   }
   /**
@@ -56,7 +55,7 @@ class InvertedIndex {
       index = this.index;
     }
     if (Object.keys(index).length === 0) {
-      return { error: 'no index created yet' };
+      return { error: 'no index created yet, please create one' };
     }
     // Check if file name is specified
     if (this.hasFileName(terms)) {
@@ -75,7 +74,8 @@ class InvertedIndex {
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {
         if (indexForFile[token] === undefined) {
-          fileIndex[token] = [];  // Add empty array if token is absent
+          // Add empty array if token is absent
+          fileIndex[token] = [];
         } else {
           fileIndex[token] = indexForFile[token];
         }
@@ -91,7 +91,8 @@ class InvertedIndex {
         }
         const indexForFile = index[fileName].index;
         if (indexForFile === undefined) {
-          return; // Continue to next file
+          // Continue to next file
+          return;
         }
         const searchTerms = terms;
         this.getTokens(searchTerms, tokens);
@@ -117,7 +118,8 @@ class InvertedIndex {
     items.forEach((element) => {
       if (Array.isArray(element)) {
         this.getTokens(element, filteredTokens);
-      } else if (element.indexOf(' ') >= 0) { // Check for words with spaces
+      } else if (element.indexOf(' ') >= 0) {
+        // Check for words with spaces
         const spacesRemoved = element.split(/\s+/);
         this.getTokens(spacesRemoved, filteredTokens);
       } else {
@@ -127,7 +129,7 @@ class InvertedIndex {
   }
 
   /**
-   * This method checks if the first term in the array is a file name
+   * The hasFileName checks if the first term in the array is a file name
    * @returns {boolean} returns a boolean to indicate if it has file name
    * @param {Array} args an array whose content is to be checked
    */

@@ -17,11 +17,11 @@ export default {
     if (files === undefined || files.length === 0) {
       return callback(false, { error: 'no file uploaded' });
     }
-    let count = 0;  // Keep count of number of indexed files
+    // Keep count of number of indexed files
+    let count = 0;
     files.forEach((file) => {
       const originalFileName = file.originalname;
       const filePath = file.path;
-
       // Check for valid file type
       const fileExtension = (originalFileName.split('.').pop()).toUpperCase();
       if (fileExtension !== 'JSON') {
@@ -53,7 +53,8 @@ export default {
           },
           () => {
             indices[originalFileName] = index;
-            invertedIndex.index[originalFileName] = index; // Add to global index
+            // Add to global index
+            invertedIndex.index[originalFileName] = index;
             // Check to see if last file is indexed
             if (count === files.length) {
               return callback(true, indices);

@@ -42,7 +42,8 @@ or
 
 ## Installation guide
 To run the app,
-* Clone this repository
+* Clone [this](https://github.com/victor4l/inverted-index-api) repository
+* Navigate your git terminal to the root of this project
 * Run `npm install` at the root of the project folder to install dependencies
 * Run `npm start` or `gulp serve` to run the app
 * Connect to port `8001` on your local host
@@ -143,3 +144,22 @@ has its index created, the result would be
 }
 
 ```
+
+# Contributing to the Project
+Contributions are welcome and appreciated. To contribute
+* Fork this repository [here](https://github.com/victor4l/inverted-index-api)
+* Open a terminal and execute the following command to make a local copy
+`$ git clone git@github.com:your-username/inverted-index-api`
+* Make your contributions to your local repo
+* Run this code to navigate into the folder
+`cd inverted-index-api`
+* Add a connection to the original repo using
+`$ git remote add repo_nickname git://github.com/victor4l/inverted-index-api`
+* Note that `repo_nickname` is a nickname you choose.
+* Run `git remote -v` to verify that the connection is established
+* Make your contributions to your local copy of the project
+* Run `git add` and `git commit` to commit your contributions to the project
+* Run `git push` to push your changes to your copy of the repository
+* If you feel you've made a contribution that will improve the project, raise a Pull Request.
+* Be descriptive enough about your contributions so other contributors will understand what you've done
+* I look forward to your Pull Requests!
