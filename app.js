@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
   case 'TEST': app.set('PORT', process.env.PORT_TEST); break;
   case 'PROD': app.set('PORT', process.env.PORT_PROD); break;
   case 'DEV': app.set('PORT', process.env.PORT_DEV); break;
-  default: app.set('PORT', 5000);
+  default: app.set('PORT', process.env.PORT);
 }
 
 // Routes
@@ -24,7 +24,7 @@ app.use('/', (req, res) => {
 });
 
 const port = app.get('PORT');
-const server = app.listen(port || process.env.PORT, () => {
+const server = app.listen(process.env.PORT || port, () => {
   console.log(`listening at port ${port}`);
 });
 
