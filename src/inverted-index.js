@@ -67,9 +67,6 @@ class InvertedIndex {
       }
       // Check if index has valid content for file name
       const indexForFile = index[fileName].index;
-      if (indexForFile === undefined) {
-        return { error: 'no index created for that book' };
-      }
       const searchTerms = terms.slice(1, terms.length);
       this.getTokens(searchTerms, tokens);
       tokens.forEach((token) => {

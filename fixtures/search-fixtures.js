@@ -224,7 +224,29 @@ export default {
       into: [0]
     }
   },
-
+  searchBeforCreatingIndex: {
+    terms: ['obi', 'ola']
+  },
+  noIndexForFileName: { index: {
+    'book1.json': { index: {
+      an: [0, 1],
+      boy: [1, 0]
+    }
+    }
+  },
+    fileName: 'unknown.json',
+    terms: ['ade', 'yusuf']
+  },
+  indexAsString: { index: JSON.stringify({
+    "book1.json": {
+      "index": {
+        "an": [0, 1],
+        "boy": [1, 0]
+      }
+    }
+  }),
+    terms: ['an', 'boy']
+  },
   searchWithoutTerms: { index: {
     'book1.json': { index: {
       an: [0],

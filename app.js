@@ -24,7 +24,7 @@ app.use('/', (req, res) => {
 });
 
 const port = app.get('PORT');
-const server = app.listen(port, () => {
+const server = app.listen(port || process.env.PORT, () => {
   console.log(`listening at port ${port}`);
 });
 

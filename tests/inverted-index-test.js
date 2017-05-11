@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import app from '../app';
 import searchFixture from '../fixtures/search-fixtures';
 import invertedIndex from '../src/inverted-index';
+import { splitandNormalize, filterBook, removeDuplicatesAndSort } from '../src/content-filter';
 
 const request = supertest(app);
 // Expected test result for search route when valid file is supplied
@@ -118,6 +119,18 @@ describe('Application Tests', () => {
     });
   });
   describe('Populate Index test', () => {
+    it('ensures proper response when search is made before creating index', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.searchBeforCreatingIndex)
+        .expect({ error: 'no index created yet, please create one' })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
     it('ensures index is created once JSON file is read', (done) => {
       request
         .post('/api/create')
@@ -243,6 +256,33 @@ describe('Application Tests', () => {
           return app.close();
         });
     });
+    it('ensures proper response when file to search for has no index created for it', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.noIndexForFileName)
+        .expect({ error: 'no index available for that book' })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
+    it('ensures proper response when index is supplied as string', (done) => {
+      request
+        .post('/api/search')
+        .send(searchFixture.indexAsString)
+        .expect({ 'book1.json': {
+          an: [0, 1],
+          boy: [1, 0]
+        } })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          done();
+        });
+    });
     it('ensures passed in index is in valid format', (done) => {
       request
         .post('/api/search')
@@ -278,6 +318,28 @@ describe('Application Tests', () => {
         }
         done();
       });
+    });
+  });
+  describe('Test for helper methods', () => {
+    it('ensures that splitAndNormalize returns correct output', (done) => {
+      const normalized = splitandNormalize('alice in wonderland');
+      expect(normalized).toEqual(['alice', 'in', 'wonderland']);
+      done();
+    });
+    it('ensures that removeDuplicatesAndSort returns correct output', (done) => {
+      const filtered = removeDuplicatesAndSort(['we', 'are', 'we', 'was']);
+      expect(filtered).toEqual(['are', 'was', 'we']);
+      done();
+    });
+    it('ensures that filterBook returns correct output', (done) => {
+      const book = {
+        title: 'Gulliver Travels',
+        text: 'Giant here, tiny there'
+      };
+      const filtered = filterBook(book);
+      expect(filtered).toEqual({ title: 'Gulliver Travels',
+        words: ['giant', 'gulliver', 'here', 'there', 'tiny', 'travels'] });
+      done();
     });
   });
 });

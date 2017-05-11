@@ -1,11 +1,11 @@
 import express from 'express';
 import multer from 'multer';
-import indexer from './indexer';  // Middleware to handle creation of index
+import createWare from '../middlewares/create-middleware';  // Middleware to handle creation of index
 
 const upload = multer({ dest: 'uploads' });
 const router = express.Router();
 
-router.post('/', upload.array('files'), indexer.appendIndex, (req, res) => {
+router.post('/', upload.array('files'), createWare.appendIndex, (req, res) => {
   res.send(res.indices);  // Appends indices to middleware
 });
 
