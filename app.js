@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
   case 'TEST': app.set('PORT', process.env.PORT_TEST); break;
   case 'PROD': app.set('PORT', process.env.PORT_PROD); break;
   case 'DEV': app.set('PORT', process.env.PORT_DEV); break;
-  default: app.set('PORT', process.env.PORT);
+  default: app.set('PORT', 5000);
 }
 
 // Routes
