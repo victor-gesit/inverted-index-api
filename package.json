@@ -44,6 +44,7 @@
     "supertest": "^3.0.0"
   },
   "dependencies": {
+    "gulp": "^3.9.1",
     "async": "^2.4.0",
     "babel-register": "^6.24.1",
     "body-parser": "^1.17.1",
