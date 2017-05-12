@@ -17,7 +17,8 @@ export default {
       }
     ],
     (err, result) => {
-      res.indices = result[0];  // Append the indices generated
+      // Append the indices generated
+      res.indices = result[0];
       next();
     });
   }

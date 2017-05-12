@@ -253,7 +253,6 @@ describe('Application Tests', () => {
             return done(err);
           }
           done();
-          return app.close();
         });
     });
     it('ensures proper response when file to search for has no index created for it', (done) => {
@@ -340,6 +339,7 @@ describe('Application Tests', () => {
       expect(filtered).toEqual({ title: 'Gulliver Travels',
         words: ['giant', 'gulliver', 'here', 'there', 'tiny', 'travels'] });
       done();
+      return app.close();
     });
   });
 });
