@@ -6,14 +6,6 @@ import search from './routes/search';
 const app = express();
 dotenv.config();
 
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-
 // Set port
 switch (process.env.NODE_ENV) {
   case 'TEST': app.set('PORT', process.env.PORT_TEST); break;
@@ -33,7 +25,7 @@ app.use('/', (req, res) => {
 
 const port = app.get('PORT');
 const server = app.listen(process.env.PORT || port, () => {
-  console.log(`listening at port ${port}`);
 });
 
-export default server; // Make app available to the test suite;
+// Make app available to the test suite;
+export default server;
