@@ -70,7 +70,7 @@ To run the app,
 * Click send to get a response of each term you searched, and an array of numbers indicating what book they appear in
 
 ## Running on Heroku
-* Connect to `not yet ready` and follow the steps stated above. Change the url path accordingly, to switch from create to search index
+* Connect to [inVidex](https://invidex.herokuapp.com/) and follow the steps stated above. Change the url path accordingly, to switch from create to search index
 
 ## Sample Outputs
 
