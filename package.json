@@ -1,0 +1,61 @@
+{
+  "name": "inverted-index-api",
+  "version": "1.0.0",
+  "description": "An application that implements the Inverted Index search functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp coverage",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victor4l/inverted-index-api.git"
+  },
+  "keywords": [
+    "Inverted",
+    "Index",
+    "Andela21"
+  ],
+  "author": "Victor Idongesit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victor4l/inverted-index-api/issues"
+  },
+  "homepage": "https://github.com/victor4l/inverted-index-api#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-babel-istanbul": "^1.6.0",
+    "gulp-coveralls": "^0.1.4",
+    "gulp-env": "^0.4.0",
+    "gulp-inject-modules": "^1.0.0",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-jasmine": "^2.4.2",
+    "gulp-jasmine-node": "^1.0.7",
+    "gulp-live-server": "0.0.30",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "async": "^2.4.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "body-parser": "^1.17.1",
+    "codacy-coverage": "^2.0.2",
+    "coveralls": "^2.13.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "gulp": "^3.9.1",
+    "gulp-exit": "0.0.2",
+    "jasmine": "^2.6.0",
+    "jasmine-node": "^1.14.5",
+    "multer": "^1.3.0"
+  }
+}
