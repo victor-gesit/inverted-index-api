@@ -10,6 +10,13 @@ export default {
     const index = req.body.index,
       terms = req.body.terms,
       fileName = req.body.fileName;
+    if (fileName !== undefined) {
+      const fileExtension = fileName.split('.').pop();
+      if (fileExtension.toUpperCase() !== 'JSON') {
+        res.searchResult = { error: 'please specify valid file name and extesion' };
+        next();
+      }
+    }
     if (terms === undefined) {
       res.searchResult = { error: 'no search terms specified' };
       next();
